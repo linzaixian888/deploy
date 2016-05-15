@@ -38,7 +38,7 @@ public class FilterChain implements Filter{
 	 * 处理完其中的过滤器链后接下来要处理的过滤器,也就是要返回之前的过滤器继续处理
 	 */
 	private FilterChain lastFilterChain;
-	public void process(Filter filter) throws Exception {
+	public void process(FilterChain filterChain) throws Exception {
 		FilterChain chain;
 		if(index>=filters.size()){
 			if(this.lastFilterChain!=null){

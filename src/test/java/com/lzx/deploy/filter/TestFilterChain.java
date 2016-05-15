@@ -1,4 +1,4 @@
-package com.lzx.deploy.deploy;
+package com.lzx.deploy.filter;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -102,7 +102,7 @@ public class TestFilterChain {
 	
 	public class AFilter  implements Filter{
 		@Override
-		public void process(Filter filter) {
+		public void process(FilterChain filterChain) {
 			System.out.println("A");
 			
 		}
@@ -110,7 +110,7 @@ public class TestFilterChain {
 	public class BFilter implements Filter{
 
 		@Override
-		public void process(Filter filter)throws Exception {
+		public void process(FilterChain filterChain)throws Exception {
 			// TODO Auto-generated method stub
 			throw new Exception("报错了");
 			
