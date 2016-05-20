@@ -9,7 +9,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lzx.deploy.filter.util.StringPrintWriter;
+import com.lzx.deploy.pojo.MyClass;
+import com.lzx.deploy.util.StringPrintWriter;
 
 public class FilterChain implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(FilterChain.class);
@@ -25,6 +26,9 @@ public class FilterChain implements Filter{
 	 * 当前过滤器链拥有的过滤器
 	 */
 	private List<Filter> filters=new ArrayList<Filter>();
+	
+	
+	List<MyClass> classList=new ArrayList<MyClass>();
 	/**
 	 * 当前处理的过滤器下标索引
 	 */
@@ -113,6 +117,16 @@ public class FilterChain implements Filter{
 	}
 	public void setRoot(Map map){
 		this.map=map;
+	}
+	
+	public void addClassList(MyClass myClass){
+		classList.add(myClass);
+	}
+	public List<MyClass> getClassList(){
+		return this.classList;
+	}
+	public void setClassList(List<MyClass> classList) {
+		this.classList = classList;
 	}
 	/**
 	 * 获取运行过的过滤器数量(运行报错的也算，没运行过的就不算)
