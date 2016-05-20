@@ -1,4 +1,4 @@
-package com.lzx.deploy.filter.util;
+package com.lzx.deploy.util;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;

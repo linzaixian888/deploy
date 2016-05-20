@@ -1,4 +1,4 @@
-package com.lzx.deploy.filter.util;
+package com.lzx.deploy.util;
 
 public class Global {
 	/**
