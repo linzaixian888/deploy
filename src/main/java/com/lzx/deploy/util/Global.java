@@ -7,7 +7,7 @@ public class Global {
 	public static FreemarkerUtil FU;
 	static{
 		FU=new FreemarkerUtil();
-		FU.addClassLoader(Global.class, "/com/linzaixian/deploy/template");
+		FU.addClassLoader(Global.class, "/template");
 		FU.setSuffix("ftl");
 		FU.setIsCloseStream(true);
 	}

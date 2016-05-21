@@ -8,6 +8,7 @@ import com.lzx.deploy.filter.init.DeployReadConfig;
 import com.lzx.deploy.filter.init.DeployReadMyXmlConfig;
 import com.lzx.deploy.filter.init.DeployReadProjectXML;
 import com.lzx.deploy.filter.init.DeploySwitch;
+import com.lzx.deploy.filter.jpa.DeployJpaPojo;
 
 public class DeployMain {
 	private String configPath=null;
@@ -35,7 +36,7 @@ public class DeployMain {
 	}
 	private FilterChain getChain(){
 		FilterChain chain=getInitChain();
-//		chain.addFilter(new DeployChooseFilter());
+		chain.addFilter(new DeployChooseFilter());
 		return chain;
 	}
 	public void deploy(){

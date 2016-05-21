@@ -1,13 +1,11 @@
 package com.lzx.deploy.filter.init;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -57,22 +55,13 @@ public class DeployReadProjectXML extends DefaultHandler implements Filter{
 		}
 	}
 
-	public void process(FilterChain filterChain) {
-		try {
+	public void process(FilterChain filterChain)throws Exception {
 			SAXParserFactory factory=SAXParserFactory.newInstance();
 			SAXParser parser=factory.newSAXParser();
 			String root=FileUtil.getRootPath();
 			logger.debug("项目路径是{}",root.toString());
 			File file=new File(root, ".classpath");
 			parser.parse(file, this);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 	private void setSrc(){
 		logger.debug("获取到的源路径为：{}",list);

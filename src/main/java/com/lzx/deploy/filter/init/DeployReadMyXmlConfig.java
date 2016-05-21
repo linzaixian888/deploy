@@ -1,5 +1,6 @@
 package com.lzx.deploy.filter.init;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -29,8 +30,7 @@ public class DeployReadMyXmlConfig implements Filter {
 	}
 	
 
-	public void process(FilterChain filterChain) {
-		try {
+	public void process(FilterChain filterChain) throws Exception {
 			logger.debug("begin---开始读取自定义xml配置文件");
 			if (is == null) {
 				logger.error("自定义配置文件不存在:{}",defaultPath);
@@ -51,9 +51,6 @@ public class DeployReadMyXmlConfig implements Filter {
 			is.close();
 			logger.debug("配置数据：{}",filterChain.getRoot());
 			logger.debug("end---读取自定义xml配置文件结束");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	private void setFramework(String frameworkStr,FilterChain chain){
 		if(frameworkStr!=null){

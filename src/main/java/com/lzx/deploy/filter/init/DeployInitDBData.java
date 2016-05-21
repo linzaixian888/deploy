@@ -26,7 +26,6 @@ public class DeployInitDBData implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployInitDBData.class);
 	private List<Table> tables;
 	private DBHelper db;
-	private String idName;
 	public void process(FilterChain filterChain) {
 		String driver=(String) filterChain.get("driver");
 		String url=(String) filterChain.get("url");
@@ -49,19 +48,22 @@ public class DeployInitDBData implements Filter{
 		tables=db.getAllTable();
 		logger.debug("begin---开始对数据库数据进行初始化");
 		for(Table table:tables){
-			idName=table.getIdColumn().getColumnName();
-			if("".equals(idName)||idName==null){
-				logger.error("{}表没有设置主键，请设置主键",table.getTableName());
-				throw new RuntimeException(table.getTableName()+"表没有设置主键，请设置主键");
-			}
 			MyClass myClass=new MyClass();
-			//对id属性的赋值
-			myClass.getIdField().setColumnName(table.getIdColumn().getColumnName());
-			myClass.getIdField().setType(getTypeString(table.getIdColumn().getColumnType(), table.getIdColumn(), table));
-			myClass.getIdField().setName(toIdField(table.getIdColumn().getColumnName()));
-			myClass.getIdField().setRemark(table.getIdColumn().getRemark());
-			if(myClass.getIdField().getRemark()==null){
-				myClass.getIdField().setRemark("");
+			String idName=table.getIdColumn().getColumnName();
+			if("".equals(idName)||idName==null){
+				logger.error("{}表没有设置主键",table.getTableName());
+				myClass.setIdField(null);
+				continue;
+//				throw new RuntimeException(table.getTableName()+"表没有设置主键，请设置主键");
+			}else{
+				//对id属性的赋值
+				myClass.getIdField().setColumnName(table.getIdColumn().getColumnName());
+				myClass.getIdField().setType(getTypeString(table.getIdColumn().getColumnType(), table.getIdColumn(), table));
+				myClass.getIdField().setName(toIdField(table.getIdColumn().getColumnName()));
+				myClass.getIdField().setRemark(table.getIdColumn().getRemark());
+				if(myClass.getIdField().getRemark()==null){
+					myClass.getIdField().setRemark("");
+				}
 			}
 			//对表信息的处理
 			myClass.setTableName(table.getTableName());
