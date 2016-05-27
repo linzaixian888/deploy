@@ -1,4 +1,4 @@
-package ${mapperPackage}.base;
+package ${daoPackage}.base;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -20,11 +20,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
-public abstract class BaseDao<T,PK extends Serializable> implements IBaseDao<T, PK> {
+public abstract class ${baseDaoImpl}<T,PK extends Serializable> implements ${baseDaoI}<T, PK> {
 	private Class<T> classType;
 	@Resource
 	private SessionFactory sessionFactory;
-	public BaseDao(){
+	public ${baseDaoImpl}(){
 		Type type=getClass().getGenericSuperclass();
 		if(type instanceof ParameterizedTypeImpl){
 			classType=(Class<T>) ((ParameterizedTypeImpl) type).getActualTypeArguments()[0];
@@ -515,6 +515,7 @@ public abstract class BaseDao<T,PK extends Serializable> implements IBaseDao<T, 
 		}
 		return query.executeUpdate();
 	}
+	<#--
 	@Override
 	public int deleteByPojo(T t){
 		try {
@@ -580,6 +581,7 @@ public abstract class BaseDao<T,PK extends Serializable> implements IBaseDao<T, 
 		}
 		
 	}
+	-->
 	@Override
 	public Object querySqlSingleValue(final String sql, final Object... params) {
 		List list=querySql(new QueryCallBack() {
@@ -602,7 +604,7 @@ public abstract class BaseDao<T,PK extends Serializable> implements IBaseDao<T, 
 		}
 		return null;
 	}
-	
+	<#--
 	public int updateByPojo(T t){
 		List<String> names=getColumnName();
 		List params=new ArrayList();
@@ -763,5 +765,6 @@ public abstract class BaseDao<T,PK extends Serializable> implements IBaseDao<T, 
 			return temp.toLowerCase()+str.substring(1);
 		}
 	}
+	-->
 
 }

@@ -1,4 +1,4 @@
-package ${mapperPackage}.base;
+package ${daoPackage}.base;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.hibernate.Session;
 
-public interface IBaseDao<T, PK extends Serializable> {
+public interface ${baseDaoI}<T, PK extends Serializable> {
 
 	/**
 	 * 获取Hibernate的原生Session对象
@@ -128,9 +128,9 @@ public interface IBaseDao<T, PK extends Serializable> {
 
 	public int executeSql(String sql, Object... params);
 
-
+	<#--
 	public List<T> findByPojo(T t);
-
+	-->
 	/**
 	 * 查询结果集的第一行第一列
 	 * @param sql
@@ -138,7 +138,7 @@ public interface IBaseDao<T, PK extends Serializable> {
 	 * @return
 	 */
 	public Object querySqlSingleValue(String sql, Object... params);
-	
+	<#--
 	public int updateByPojo(T t);
 	
 	public int deleteByPojo(T t);
@@ -150,5 +150,6 @@ public interface IBaseDao<T, PK extends Serializable> {
 	public String getIdName();
 	public List<String> getColumnName();
 	public String getTableName();
+	-->
 
 }

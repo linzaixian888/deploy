@@ -37,6 +37,7 @@ public class DeployMain {
 	private FilterChain getChain(){
 		FilterChain chain=getInitChain();
 		chain.addFilter(new DeployChooseFilter());
+//		chain.addFilter(new DeployJpaPojo());
 		return chain;
 	}
 	public void deploy(){

@@ -1,4 +1,4 @@
-package ${mapperPackage}.base;
+package ${daoPackage}.base;
 
 import org.hibernate.Query;
 

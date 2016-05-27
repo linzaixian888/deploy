@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.hibernate.Session; 
 
-public interface IBaseService<T, PK extends Serializable> {
+public interface ${baseServiceI}<T, PK extends Serializable> {
 
 
 	public  T get(PK pk);
@@ -29,6 +29,7 @@ public interface IBaseService<T, PK extends Serializable> {
 	
 	public int countAll();
 	
+	<#--
 	public int updateByPojo(T t);
 	
 	public int deleteByPojo(T t);
@@ -38,5 +39,6 @@ public interface IBaseService<T, PK extends Serializable> {
 	public int insertBatch(List<T> list,String...columns);
 	
 	public List<T> findByPojo(T t);
+	-->
 
 }

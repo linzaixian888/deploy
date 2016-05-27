@@ -1,4 +1,4 @@
-package ${mapperPackage}.base;
+package ${daoPackage}.base;
 
 public class Page {
 	private String sortName;

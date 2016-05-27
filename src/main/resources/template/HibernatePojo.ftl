@@ -38,7 +38,7 @@ public class ${myClass.className}{
 	@Column(name = "${myClass.idField.columnName}")
 		<#else>
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "${myClass.idField.columnName}")
 		</#if>
 	</#if>

@@ -103,6 +103,8 @@ public class StringUtil {
 			return temp.toLowerCase()+str.substring(1);
 		}
 	}
+	
+	
 	public static void main(String[] args) {
 		
 	}

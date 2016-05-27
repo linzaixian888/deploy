@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root framework="spring,mybatis,struts2">
+<root framework="spring,hibernate,struts2">
 	<pojo>
 		<pojoPackage>com.bluedon.bsmon.bean</pojoPackage>
 	</pojo>
@@ -36,7 +36,7 @@
 	<sql sqlType="mysql">
 		<mysql>
 			<driver>com.mysql.jdbc.Driver</driver>
-			<url>jdbc:mysql://localhost:3306/jfinalbbs</url>
+			<url>jdbc:mysql://localhost:3306/test</url>
 			<username>root</username>
 			<password>123456</password>
 			<format_sql>false</format_sql>

@@ -12,7 +12,7 @@
 						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd ">
 	
 	<#if hibernate??>
-	<context:component-scan base-package="${mapperPackage}" />
+	<context:component-scan base-package="${daoPackage}" />
 	</#if>
 	<!-- 扫描src/com下的services包 -->
 	<context:component-scan base-package="${servicePackage}" />
@@ -30,8 +30,8 @@
 		<property name="validationQuery" value="select 1"> </property>
 	</bean>
 	<#if hibernate??>
-			<bean id="sessionFactory"
-				class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		${r"<!-- hibernate4专用 -->"}
+		<!--	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 				<property name="dataSource" ref="dataSource"></property>
 				<property name="packagesToScan">
 					<list>
@@ -41,16 +41,36 @@
 				<property name="hibernateProperties">
 					<props>
 						<prop key="hibernate.format_sql">${format_sql}</prop>
-						<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext
-						</prop>
+						<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
 						<prop key="hibernate.hbm2ddl.auto">${hbm2ddl}</prop>
 						<prop key="hibernate.dialect">${dialect}</prop>
 						<prop key="hibernate.show_sql">${show_sql}</prop>
 					</props>
 				</property>
 			</bean>
-			<bean id="transactionManager"
-				class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+			<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+				<property name="sessionFactory" ref="sessionFactory"></property>
+			</bean>
+			-->
+			${r"<!-- hibernate5专用 -->"}
+			<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+				<property name="dataSource" ref="dataSource"></property>
+				<property name="packagesToScan">
+					<list>
+						<value>${pojoPackage}</value>
+					</list>
+				</property>
+				<property name="hibernateProperties">
+					<props>
+						<prop key="hibernate.format_sql">${format_sql}</prop>
+						<prop key="hibernate.transaction.coordinator_class">jdbc</prop>
+						<prop key="hibernate.hbm2ddl.auto">${hbm2ddl}</prop>
+						<prop key="hibernate.dialect">${dialect}</prop>
+						<prop key="hibernate.show_sql">${show_sql}</prop>
+					</props>
+				</property>
+			</bean>
+			<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 				<property name="sessionFactory" ref="sessionFactory"></property>
 			</bean>
 	</#if>

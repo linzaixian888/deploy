@@ -1,6 +1,7 @@
 package com.lzx.deploy.filter.hibernate;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,29 +15,43 @@ import com.lzx.deploy.util.StringUtil;
 
 public class DeployHibernateDao implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployHibernateDao.class);
-	private String mapperPackage="mapperPackage";
+	private String baseDao="BaseDao";
+	private String daoPackage="daoPackage";
+	private String i="interface";
+	private String impl="implements";
 	private List<MyClass> myClasses;
-	private String mapperPath;
 	boolean success=true;
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署Dao类");
-		mapperPackage=(String) filterChain.get(mapperPackage);
+		daoPackage=(String) filterChain.get(daoPackage);
+		i=(String) filterChain.get(i);
+		impl=(String) filterChain.get(impl);
 		myClasses=filterChain.getClassList();
-		mapperPath=StringUtil.sourcePackageToPath(mapperPackage);
-		new File(mapperPath).mkdirs();
-		success=Global.FU.process("HibernateBaseDao", filterChain.getRoot(), mapperPath+"base/BaseDao.java")
-				&&Global.FU.process("HibernateIBaseDao", filterChain.getRoot(), mapperPath+"base/IBaseDao.java")
-				&&Global.FU.process("QueryCallBack", filterChain.getRoot(), mapperPath+"base/QueryCallBack.java")
-				&&Global.FU.process("Page", filterChain.getRoot(), mapperPath+"base/Page.java");
+		String daoPath=StringUtil.sourcePackageToPath(daoPackage);
+		new File(daoPath).mkdirs();
+		
+		String baseDaoI=format(i, baseDao);
+		String baseDaoImpl=format(impl, baseDao);
+		filterChain.put("baseDaoI", baseDaoI);
+		filterChain.put("baseDaoImpl", baseDaoImpl);
+		success=Global.FU.process("HibernateBaseDaoImplements", filterChain.getRoot(), daoPath+"base/"+baseDaoImpl+".java")
+				&&Global.FU.process("HibernateBaseDaoInterface", filterChain.getRoot(), daoPath+"base/"+baseDaoI+".java")
+				&&Global.FU.process("QueryCallBack", filterChain.getRoot(), daoPath+"base/QueryCallBack.java")
+				&&Global.FU.process("Page", filterChain.getRoot(), daoPath+"base/Page.java");
 		if(success){
-			logger.debug("成功部署IBaseDao类、BaseDao类、QueryCallBack类、Page类");
+			logger.debug("成功部署{}类、{}类、QueryCallBack类、Page类",baseDaoI,baseDaoImpl);
 		}else{
-			logger.error("部署IBaseDao类、BaseDao类、QueryCallBack类、Page类失败");
-			throw new RuntimeException("部署IBaseDao类、BaseDao类、QueryCallBack类、Page类失败");
+			logger.error("部署{}类、{}类、QueryCallBack类、Page类失败",baseDaoI,baseDaoImpl);
+			throw new RuntimeException("部署"+baseDaoI+"类、"+baseDaoImpl+"类、QueryCallBack类、Page类失败");
 		}
 		for(MyClass myClass:myClasses){
 			filterChain.put("myClass", myClass);
-			success=Global.FU.process("HibernateDao", filterChain.getRoot(),mapperPath+myClass.getClassName()+"Dao.java");
+			String daoI=format(i, myClass.getClassName()+"Dao");
+			String daoImpl=format(impl, myClass.getClassName()+"Dao");
+			filterChain.put("daoI", daoI);
+			filterChain.put("daoImpl", daoImpl);
+			success=Global.FU.process("HibernateDaoImplements", filterChain.getRoot(),daoPath+daoImpl+".java")
+					&&Global.FU.process("HibernateDaoInterface", filterChain.getRoot(),daoPath+daoI+".java");
 			if(success){
 				logger.debug("成功部署{}Dao类",myClass.getClassName());
 			}else{
@@ -46,5 +61,8 @@ public class DeployHibernateDao implements Filter{
 		}
 		logger.debug("end---成功部署所有Dao类");
 		
+	}
+	private String format(String templage,String...params){
+		return MessageFormat.format(templage, params);
 	}
 }
