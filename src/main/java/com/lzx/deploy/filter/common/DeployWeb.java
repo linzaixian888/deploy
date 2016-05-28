@@ -1,5 +1,7 @@
 package com.lzx.deploy.filter.common;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,12 +13,18 @@ import com.lzx.deploy.util.Global;
 public class DeployWeb implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployWeb.class);
 	private String webPath="webPath";
+	private String path="path";
 	private boolean success;
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署web.xml");
 		webPath=(String) filterChain.get(webPath);
 		if(webPath==null){
-			webPath=FileUtil.getWebPath();
+			path=(String) filterChain.get(path);
+			if(path==null){
+				webPath=FileUtil.getWebPath();
+			}else{
+				webPath=new File(path, "src/main/webapp/WEB-INF/web.xml").getAbsolutePath();
+			}
 		}
 		if(webPath!=null){
 			logger.debug("web.xml的路径是:{}",webPath);

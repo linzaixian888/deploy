@@ -18,37 +18,40 @@ public class DeployController implements Filter{
 	private String suffix="suffix";
 	private String controllerPackage="controllerPackage";
 	private String controllerPath;
+	private String path="path";
 	boolean success=true;
 	public void process(FilterChain chain) {
 		logger.debug("begin---开始部署controller");
 		prefix=(String) chain.get(prefix);
+		suffix=(String) chain.get(suffix);
+		path=(String) chain.get(path);
 		controllerPackage=(String) chain.get(controllerPackage);
 		controllerPath=StringUtil.sourcePackageToPath(controllerPackage);
-		File viewFile=getViewFile(prefix);
-		suffix=(String) chain.get(suffix);
-		logger.debug("视图所在目录为:{}",viewFile.getAbsolutePath());
-		if(!viewFile.exists()){
-			logger.debug("视图所在目录不存在，跳过该处理器");
+		File viewFile=null;
+		if(path!=null){
+			viewFile=new File(new File(path, "src/main/webapp"), prefix);
 		}else{
-			List<File> all=FileUtil.getFolderAndFileList(viewFile);
-			for(File f:all){
-				if(f.getAbsolutePath().endsWith(suffix)){
-					String name=f.getName();
-					name=name.substring(0, name.lastIndexOf("."));
-					String controllerName=toControllerName(name);
-					chain.put("pageName", name);
-					chain.put("controllerName", controllerName);
-					success=Global.FU.process("Controller", chain.getRoot(), controllerPath+controllerName+"Controller.java");
-					if(success){
-						logger.debug("成功部署{}Controller.java",controllerName);
-					}else{
-						logger.error("部署{}Controller.java失败",controllerName);
-						throw new RuntimeException("部署"+controllerName+"Controller.java失败");
-					}
+			viewFile=getViewFile(prefix);
+		}
+		logger.debug("视图所在目录为:{}",viewFile.getAbsolutePath());
+		List<File> all=FileUtil.getFileList(viewFile);
+		for(File f:all){
+			if(f.getAbsolutePath().endsWith(suffix)){
+				String name=f.getName();
+				name=name.substring(0, name.lastIndexOf("."));
+				String controllerName=toControllerName(name);
+				chain.put("pageName", name);
+				chain.put("controllerName", controllerName);
+				success=Global.FU.process("Controller", chain.getRoot(), controllerPath+controllerName+"Controller.java");
+				if(success){
+					logger.debug("成功部署{}Controller.java",controllerName);
+				}else{
+					logger.error("部署{}Controller.java失败",controllerName);
+					throw new RuntimeException("部署"+controllerName+"Controller.java失败");
 				}
 			}
-			logger.debug("end---成功部署所有controller");
 		}
+		logger.debug("end---成功部署所有controller");
 		
 		
 		

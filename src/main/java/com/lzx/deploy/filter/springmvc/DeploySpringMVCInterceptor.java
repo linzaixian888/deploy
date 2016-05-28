@@ -19,8 +19,8 @@ public class DeploySpringMVCInterceptor implements Filter{
 		interceptorClassName=(String) filterChain.get(interceptorClassName);
 		interceptorPackage=(String) filterChain.get(interceptorPackage);
 		interceptorPath=StringUtil.sourcePackageToPath(interceptorPackage);
-		success=Global.FU.process("SpringMVCInterceptor", filterChain.getRoot(), interceptorPath+interceptorClassName+".java");
-		success=success&&Global.FU.process("SpringMVCExceptionResolver", filterChain.getRoot(), interceptorPath+"ExceptionResolver.java");
+		success=Global.FU.process("SpringMVCInterceptor", filterChain.getRoot(), interceptorPath+interceptorClassName+".java")
+			  &&Global.FU.process("SpringMVCExceptionResolver", filterChain.getRoot(), interceptorPath+"ExceptionResolver.java");
 		if(success){
 			logger.debug("end---成功部署Interceptor拦载器和Exception处理器");
 		}else{

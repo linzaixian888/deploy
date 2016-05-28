@@ -21,8 +21,12 @@ public class DeployMavenPom implements Filter{
 		if(path==null){
 			logger.debug("在本项目中生成代码,跳过该处理器");
 		}else{
-			File pathPath=new File(path);
-			String projectName=pathPath.getName();
+			
+			String projectName=(String) filterChain.get("projectName");
+			if(projectName==null){
+				File pathPath=new File(path);
+				projectName=pathPath.getName();;
+			}
 			pojoPackage=(String) filterChain.get(pojoPackage);
 			filterChain.put("artifactId", projectName);
 			filterChain.put("groupId", getBasePackage(pojoPackage));

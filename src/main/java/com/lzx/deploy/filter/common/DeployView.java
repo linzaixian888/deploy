@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.lzx.deploy.filter.Filter;
 import com.lzx.deploy.filter.FilterChain;
 import com.lzx.deploy.util.FileUtil;
+import com.lzx.deploy.util.Global;
 
 public class DeployView implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployView.class);
@@ -19,6 +20,7 @@ public class DeployView implements Filter{
 	private Map<String, Integer> cache=new HashMap<String, Integer>();
 	private String prefix="prefix";
 	private String suffix="suffix";
+	private String path="path";
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署view");
 		prefix=(String) filterChain.get(prefix);
@@ -28,34 +30,34 @@ public class DeployView implements Filter{
 		}
 		File viewFile=getViewFile(prefix);
 		logger.debug("视图所在目录为:{}",viewFile.getAbsolutePath());
-		if(!viewFile.exists()){
-			logger.debug("视图所在目录不存在，跳过该处理器");
-			
-		}else{
-			List<File> all=FileUtil.getFileList(viewFile);
-			check(all);
-			if(mostCount==0){
-				logger.debug("视图目录里没有文件");
-			}else{
-				logger.debug("后缀名最多的为:{}",mostSuffix);
-				logger.debug("数量为：{}",mostCount);
-				for(File file:all){
-					String allPath=file.getAbsolutePath();
-					if(allPath.endsWith(mostSuffix)){
-						allPath=allPath.replace(mostSuffix, suffix);
-						boolean flag=file.renameTo(new File(allPath));
-						if(flag){
-							logger.debug("成功部署:{}",allPath);
-						}else{
-							logger.error("部署:{}失败",allPath);
-						}
-						
-					}
-				}
-				
+		List<File> all=FileUtil.getFileList(viewFile);
+		check(all);
+		if(mostCount==0){
+			logger.debug("视图目录里没有文件");
+			if(path!=null){
+				logger.debug("生成demo视图");
+				path=(String) filterChain.get(path);
+				Global.FU.process("View", filterChain.getRoot(), new File(new File(new File(path, "src/main/webapp"), prefix), "demo"+suffix));
 			}
-			logger.debug("end---成功部署view");
+		}else{
+			logger.debug("后缀名最多的为:{}",mostSuffix);
+			logger.debug("数量为：{}",mostCount);
+			for(File file:all){
+				String allPath=file.getAbsolutePath();
+				if(allPath.endsWith(mostSuffix)){
+					allPath=allPath.replace(mostSuffix, suffix);
+					boolean flag=file.renameTo(new File(allPath));
+					if(flag){
+						logger.debug("成功部署:{}",allPath);
+					}else{
+						logger.error("部署:{}失败",allPath);
+					}
+					
+				}
+			}
+			
 		}
+		logger.debug("end---成功部署view");
 		
 		
 	}

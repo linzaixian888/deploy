@@ -17,45 +17,49 @@ public class DeployAction implements Filter{
 	private String prefix="prefix";
 	private String suffix="suffix";
 	private String controllerPackage="controllerPackage";
+	private String path="path";
 	private String controllerPath;
 	boolean success=true;
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署Action");
 		prefix=(String) filterChain.get(prefix);
+		path=(String) filterChain.get(path);
 		controllerPackage=(String) filterChain.get(controllerPackage);
 		controllerPath=StringUtil.sourcePackageToPath(controllerPackage);
-		File viewFile=getViewFile(prefix);
+//		File viewFile=getViewFile(prefix);
+		File viewFile=null;
+		if(path!=null){
+			viewFile=new File(new File(path, "src/main/webapp"), prefix);
+		}else{
+			viewFile=getViewFile(prefix);
+		}
 		suffix=(String) filterChain.get(suffix);
 		logger.debug("视图所在目录为:{}",viewFile.getAbsolutePath());
-		if(!viewFile.exists()){
-			logger.debug("视图所在目录不存在，跳过该处理器");
+		List<File> all=FileUtil.getFileList(viewFile);
+		success=Global.FU.process("BaseAction", filterChain.getRoot(), controllerPath+"base/BaseAction.java");
+		if(success){
+			logger.debug("成功部署BaseAction");
 		}else{
-			List<File> all=FileUtil.getFolderAndFileList(viewFile);
-			success=Global.FU.process("BaseAction", filterChain.getRoot(), controllerPath+"base/BaseAction.java");
-			if(success){
-				logger.debug("成功部署BaseAction");
-			}else{
-				logger.error("部署BaseAction失败");
-				throw new RuntimeException("部署BaseAction失败");
-			}
-			for(File f:all){
-				if(f.getAbsolutePath().endsWith(suffix)){
-					String name=f.getName();
-					name=name.substring(0, name.lastIndexOf("."));
-					String controllerName=toControllerName(name);
-					filterChain.put("pageName", name);
-					filterChain.put("controllerName", controllerName);
-					success=Global.FU.process("Action", filterChain.getRoot(), controllerPath+controllerName+"Action.java");
-					if(success){
-						logger.debug("成功部署{}Action.java",controllerName);
-					}else{
-						logger.error("部署{}Action.java失败",controllerName);
-						throw new RuntimeException("部署"+controllerName+"Action.java失败");
-					}
+			logger.error("部署BaseAction失败");
+			throw new RuntimeException("部署BaseAction失败");
+		}
+		for(File f:all){
+			if(f.getAbsolutePath().endsWith(suffix)){
+				String name=f.getName();
+				name=name.substring(0, name.lastIndexOf("."));
+				String controllerName=toControllerName(name);
+				filterChain.put("pageName", name);
+				filterChain.put("controllerName", controllerName);
+				success=Global.FU.process("Action", filterChain.getRoot(), controllerPath+controllerName+"Action.java");
+				if(success){
+					logger.debug("成功部署{}Action.java",controllerName);
+				}else{
+					logger.error("部署{}Action.java失败",controllerName);
+					throw new RuntimeException("部署"+controllerName+"Action.java失败");
 				}
 			}
-			logger.debug("end---成功部署所有Action");
 		}
+		logger.debug("end---成功部署所有Action");
 		
 		
 		

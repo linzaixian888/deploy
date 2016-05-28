@@ -3,6 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>${groupId}</groupId>
 	<artifactId>${artifactId}</artifactId>
+	<#if type=="bs">
+	<packaging>war</packaging>
+	<name>${artifactId} Maven Webapp</name>
+  	<url>http://maven.apache.org</url>
+	</#if>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<mybatis.version>3.2.3</mybatis.version>
@@ -154,5 +159,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<#if type=="bs">
+		<finalName>${artifactId}</finalName>
+		</#if>
 	</build>
 </project>

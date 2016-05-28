@@ -94,6 +94,9 @@ public class FileUtil {
 	 */
 	public static List<File> getFileList(File targetFile){
 		List<File> list=new ArrayList<File>();
+		if(!targetFile.exists()){
+			return list;
+		}
 		if(targetFile.isDirectory()){
 			getFileList(targetFile, list,false);
 		}else {

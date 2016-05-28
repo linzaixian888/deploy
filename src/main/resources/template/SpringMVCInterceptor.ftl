@@ -1,4 +1,4 @@
-package com.lzx.interceptor;
+package ${interceptorPackage};
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
