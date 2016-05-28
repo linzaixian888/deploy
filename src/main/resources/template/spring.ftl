@@ -39,8 +39,8 @@
 	      <property name="username" value="root" />
 	      <property name="password" value="123456" />
 	      <!-- 配置初始化大小、最小、最大 -->
-	      <property name="initialSize" value="1" />
-	      <property name="minIdle" value="1" /> 
+	      <property name="initialSize" value="5" />
+	      <property name="minIdle" value="5" /> 
 	      <property name="maxActive" value="20" />
 	      <!-- 配置获取连接等待超时的时间 -->
 	      <property name="maxWait" value="60000" />
@@ -57,7 +57,7 @@
 	      <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
 	
 	      <!-- 配置监控统计拦截的filters -->
-	      <property name="filters" value="stat" /> 
+	      <property name="filters" value="wall,stat" /> <!--wall在前面,拦截时间不算在统计里面-->
  	</bean>
  	</#if>
 	<#if hibernate??>
