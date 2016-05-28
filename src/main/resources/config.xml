@@ -14,7 +14,7 @@
 		<springPath>classpath:spring.xml</springPath>
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
-		<path>e:/text</path>
+		<path>e:/text2</path>
 	</config>
 	<controller>
 		<controllerPackage>com.bluedon.bsmon.action</controllerPackage>

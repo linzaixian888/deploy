@@ -11,7 +11,7 @@
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
 		<junit.version>4.12</junit.version>
-		<hibernate.version>4.3.6.Final</hibernate.version>
+		<hibernate.version>5.1.0.Final</hibernate.version>
 		<freemarker.version>2.3.23</freemarker.version>
 	</properties>
 	<dependencies>
