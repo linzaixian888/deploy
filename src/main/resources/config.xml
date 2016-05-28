@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root framework="spring,mybatis,struts2">
+<root framework="spring,mybatis,springmvc">
 	<pojo>
 		<pojoPackage>com.bluedon.bsmon.bean</pojoPackage>
 	</pojo>
@@ -14,7 +14,7 @@
 		<springPath>classpath:spring.xml</springPath>
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
-		<path>e:/strutsweb</path>
+		<path>e:/struts2</path>
 		<dataPool>druid</dataPool>
 		<type>bs</type>
 	</config>
