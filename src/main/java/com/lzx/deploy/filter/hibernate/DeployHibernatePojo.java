@@ -29,9 +29,7 @@ public class DeployHibernatePojo implements Filter{
 		new File(pojoPath).mkdirs();
 		for(MyClass myClass:myClasses){
 			filterChain.put("myClass", myClass);
-			logger.debug("开始进行类名的格式化");
-			String pojoNameFormat=MessageFormat.format(pojoName, myClass.getClassName());
-			logger.debug("{}转换为{}",myClass.getClassName(),pojoNameFormat);
+			String pojoNameFormat= format(pojoName, myClass.getClassName());
 			myClass.setClassName(pojoNameFormat);
 			success=Global.FU.process("HibernatePojo", filterChain.getRoot(), pojoPath+myClass.getClassName()+".java");
 			if(success){
@@ -42,5 +40,11 @@ public class DeployHibernatePojo implements Filter{
 			}
 		}
 		logger.debug("end---成功部署所有pojo类");
+	}
+	private String format(String templage,String...params){
+		logger.debug("开始进行类名的格式化");
+		String format= MessageFormat.format(templage, params);
+		logger.debug("{}转换为{}",params[0],format);
+		return format;
 	}
 }

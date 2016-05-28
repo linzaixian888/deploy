@@ -28,7 +28,12 @@ public class DeployHibernateJunitFilter implements Filter{
 		i=(String) filterChain.get(i);
 		impl=(String) filterChain.get(impl);
 		for(MyClass myClass:myClasses){
+			if(myClass.getIdField()==null){
+				logger.warn("{}类没有设置主键,跳过该类的测试部署",myClass.getClassName());
+				continue;
+			}
 			if(myClass.getParentFields().size()>0){
+				logger.warn("{}类有外键关联,跳过该类的测试部署",myClass.getClassName());
 				continue;
 			}
 			filterChain.put("myClass", myClass);
@@ -38,17 +43,20 @@ public class DeployHibernateJunitFilter implements Filter{
 			filterChain.put("serviceImpl", serviceImpl);
 			success=Global.FU.process("HibernateJunit", filterChain.getRoot(), servicePath+"Test"+serviceI+".java");
 			if(success){
-				logger.debug("成功部署test{}测试类",myClass.getClassName());
+				logger.debug("成功部署测试类:{}","Test"+serviceI);
 			}else{
-				logger.error("部署test{}测试类",myClass.getClassName());
-				throw new RuntimeException("部署"+myClass.getClassName()+"测试类失败");
+				logger.error("部署测试类:{}失败","Test"+serviceI);
+				throw new RuntimeException("部署测试类:Test"+serviceI+"失败");
 			}
 		}
 		
 		
 	}
 	private String format(String templage,String...params){
-		return MessageFormat.format(templage, params);
+		logger.debug("开始进行类名的格式化");
+		String format= MessageFormat.format(templage, params);
+		logger.debug("{}转换为{}",params[0],format);
+		return format;
 	}
 
 }

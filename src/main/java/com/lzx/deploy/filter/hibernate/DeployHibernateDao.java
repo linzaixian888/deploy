@@ -45,6 +45,10 @@ public class DeployHibernateDao implements Filter{
 			throw new RuntimeException("部署"+baseDaoI+"类、"+baseDaoImpl+"类、QueryCallBack类、Page类失败");
 		}
 		for(MyClass myClass:myClasses){
+			if(myClass.getIdField()==null){
+				logger.warn("{}类没有设置主键,跳过该类的dao部署",myClass.getClassName());
+				continue;
+			}
 			filterChain.put("myClass", myClass);
 			String daoI=format(i, myClass.getClassName()+"Dao");
 			String daoImpl=format(impl, myClass.getClassName()+"Dao");
@@ -53,16 +57,19 @@ public class DeployHibernateDao implements Filter{
 			success=Global.FU.process("HibernateDaoImplements", filterChain.getRoot(),daoPath+daoImpl+".java")
 					&&Global.FU.process("HibernateDaoInterface", filterChain.getRoot(),daoPath+daoI+".java");
 			if(success){
-				logger.debug("成功部署{}Dao类",myClass.getClassName());
+				logger.debug("成功部署Dao类的接口:{}和实现:{}",daoI,daoImpl);
 			}else{
-				logger.error("部署{}Dao类失败",myClass.getClassName());
-				throw new RuntimeException("部署"+myClass.getClassName()+"Dao类失败");
+				logger.error("部署Dao类的接口:{}和实现:{}",daoI,daoImpl);
+				throw new RuntimeException("部署Dao类的接口:{}和实现:{}失败");
 			}
 		}
 		logger.debug("end---成功部署所有Dao类");
 		
 	}
 	private String format(String templage,String...params){
-		return MessageFormat.format(templage, params);
+		logger.debug("开始进行类名的格式化");
+		String format= MessageFormat.format(templage, params);
+		logger.debug("{}转换为{}",params[0],format);
+		return format;
 	}
 }

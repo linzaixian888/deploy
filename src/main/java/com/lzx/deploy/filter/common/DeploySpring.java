@@ -11,12 +11,11 @@ import com.lzx.deploy.util.StringUtil;
 public class DeploySpring implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeploySpring.class);
 	private String springPath="springPath";
-	private String tempPath;
 	boolean success=true;
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署spring主配置文档");
 		springPath=(String) filterChain.get(springPath);
-		tempPath=StringUtil.sourceParse(springPath);
+		String tempPath=StringUtil.sourceParse(springPath);
 		if(tempPath==null){
 			logger.error("[{}]该路径格式不正确，无法解析",springPath);
 			throw new RuntimeException("["+springPath+"]该路径格式不正确，无法解析");
