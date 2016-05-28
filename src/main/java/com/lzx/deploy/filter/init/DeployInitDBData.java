@@ -51,12 +51,12 @@ public class DeployInitDBData implements Filter{
 			MyClass myClass=new MyClass();
 			String idName=table.getIdColumn().getColumnName();
 			if("".equals(idName)||idName==null){
-				logger.error("{}表没有设置主键",table.getTableName());
+				logger.warn("{}表没有设置主键",table.getTableName());
 				myClass.setIdField(null);
-				continue;
 //				throw new RuntimeException(table.getTableName()+"表没有设置主键，请设置主键");
 			}else{
 				//对id属性的赋值
+				myClass.setIdField(new MyField());
 				myClass.getIdField().setColumnName(table.getIdColumn().getColumnName());
 				myClass.getIdField().setType(getTypeString(table.getIdColumn().getColumnType(), table.getIdColumn(), table));
 				myClass.getIdField().setName(toIdField(table.getIdColumn().getColumnName()));

@@ -77,7 +77,12 @@ public class DBHelper {
 		List<Table> tableList=new ArrayList<Table>();
 		try {
 			DatabaseMetaData db=conn.getMetaData();
-			ResultSet tables=db.getTables(null, null, null, new String[]{"TABLE"});
+			ResultSet tables=null;
+			if(driver.startsWith("oracle")){
+				tables=db.getTables(null, username.toUpperCase(), null, new String[]{"TABLE"});
+			}else{
+				tables=db.getTables(null, null, null, new String[]{"TABLE"});
+			}
 			while(tables.next()){
 				String tableName=tables.getString("TABLE_NAME");
 				Table table=new Table(tableName);

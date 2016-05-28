@@ -6,7 +6,7 @@ import java.util.List;
 public class MyClass {
 	private String className;
 	private String tableName;
-	MyField idField=new MyField();
+	MyField idField=null;
 	private String remark;
 	List<MyField> fields=new ArrayList<MyField>();
 	List<MyField> parentFields=new ArrayList<MyField>();
