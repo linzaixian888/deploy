@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 
-import ${mapperPackage}.BaseMapper;
 
-public interface IBaseService<T> {
+public interface ${baseServiceI}<T> {
 
 
 	/**

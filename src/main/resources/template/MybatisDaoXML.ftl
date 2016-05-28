@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="${mapperPackage}.${myClass.className}Mapper" >
+<mapper namespace="${daoPackage}.${daoI}" >
 	<resultMap type="${myClass.className}" id="${myClass.className}">
 		${r"<"}id property="${myClass.idField.name}" column="${myClass.idField.columnName}"/${r">"}
 			<#list noIDFieldList as item>

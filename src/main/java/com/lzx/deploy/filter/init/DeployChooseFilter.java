@@ -15,7 +15,7 @@ import com.lzx.deploy.filter.hibernate.DeployHibernateDao;
 import com.lzx.deploy.filter.hibernate.DeployHibernatePojo;
 import com.lzx.deploy.filter.hibernate.DeployHibernateService;
 import com.lzx.deploy.filter.mybatis.DeployMybatis;
-import com.lzx.deploy.filter.mybatis.DeployMybatisMapper;
+import com.lzx.deploy.filter.mybatis.DeployMybatisDao;
 import com.lzx.deploy.filter.mybatis.DeployMybatisMapperXML;
 import com.lzx.deploy.filter.mybatis.DeployMybatisPoJo;
 import com.lzx.deploy.filter.mybatis.DeployMybatisService;
@@ -65,11 +65,12 @@ public class DeployChooseFilter implements Filter{
 	}
 	private void addMybaitsFilter(FilterChain chain){
 		chain.addFilter(new DeployMybatisPoJo());
-		chain.addFilter(new DeployMybatisMapper());
+		chain.addFilter(new DeployMybatisDao());
 		chain.addFilter(new DeployMybatisMapperXML());
 		chain.addFilter(new DeployMybatis());
 		chain.addFilter(new DeployMybatisService());
 		chain.addFilter(new DeploySpring());
+		chain.addFilter(new DeployMavenPom());
 	}
 	private void addHibernateFilter(FilterChain chain){
 		chain.addFilter(new DeployHibernatePojo());

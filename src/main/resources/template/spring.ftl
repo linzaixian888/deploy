@@ -77,12 +77,12 @@
 	<#if mybatis??>
 		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 			<property name="configLocation" value="${mybatisPath}"></property>
-			<property name="mapperLocations" value="classpath:${mapperXMLPath}/*.xml" />
+			<property name="mapperLocations" value="classpath:${daoXMLPath}/*.xml" />
 			<property name="dataSource" ref="dataSource" />
 		</bean>
 		${r"<!--加载Mapper -->"}
 		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-			<property name="basePackage" value="${mapperPackage}" />
+			<property name="basePackage" value="${daoPackage}" />
 		</bean>
 		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 			<property name="dataSource" ref="dataSource" />

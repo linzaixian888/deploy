@@ -7,10 +7,12 @@
 	<typeAlias alias="${item.className}" type="${pojoPackage}.${item.className}"/>
 </#list>
 </typeAliases>
+<!--
 <plugins>
 	<plugin interceptor="com.linzaixian.mybatis.plugin.PagingPlugin">
 		<property name="dialect" value="mysql"/>
 		<property name="showSql" value="${show_sql}"/>
 	</plugin>
 </plugins>
+-->
 </configuration> 

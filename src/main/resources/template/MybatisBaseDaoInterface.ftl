@@ -1,11 +1,11 @@
-package ${mapperPackage};
+package ${daoPackage};
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 @SuppressWarnings("rawtypes")
-public interface BaseMapper<T> {
+public interface ${baseDaoI}<T> {
 
 	/**
 	 * 插入记录
