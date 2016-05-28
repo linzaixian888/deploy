@@ -2,15 +2,18 @@ package com.lzx.deploy.filter;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.lzx.deploy.filter.init.DeployChooseFilter;
 import com.lzx.deploy.filter.init.DeployInitDBData;
 import com.lzx.deploy.filter.init.DeployReadConfig;
 import com.lzx.deploy.filter.init.DeployReadMyXmlConfig;
 import com.lzx.deploy.filter.init.DeployReadProjectXML;
 import com.lzx.deploy.filter.init.DeploySwitch;
-import com.lzx.deploy.filter.jpa.DeployJpaPojo;
 
 public class DeployMain {
+	private static Logger logger=LoggerFactory.getLogger(DeployMain.class);
 	private String configPath=null;
 	public DeployMain(String configPath) {
 		this.configPath = configPath;
@@ -51,9 +54,10 @@ public class DeployMain {
 			}
 			chain.process(chain);
 			long after=System.currentTimeMillis();
-			System.out.println("共运行了"+chain.getFilterCount()+"个处理器");
-			System.out.println("共耗时"+(after-before)+"豪秒");
-			System.out.println("共耗时"+((after-before)/1000.0)+"秒");
+			logger.debug("共运行了{}个处理器",chain.getFilterCount());
+			logger.debug("其中成功运行{}个处理器",chain.getSuccessFilterCount());
+			logger.debug("共耗时{}豪秒",after-before);
+			logger.debug("共耗时{}秒",(after-before)/1000.0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
