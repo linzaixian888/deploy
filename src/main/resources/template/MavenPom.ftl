@@ -37,7 +37,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
+			<artifactId>spring-test</artifactId>
 			<version>${r"${spring.version}"}</version>
 		</dependency>
 		<dependency>
@@ -113,11 +113,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.5</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${r"${logback.version}"}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
