@@ -15,6 +15,7 @@
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
 		<path>e:/mybatis</path>
+		<dataPool>druid</dataPool>
 	</config>
 	<controller>
 		<controllerPackage>com.bluedon.bsmon.action</controllerPackage>

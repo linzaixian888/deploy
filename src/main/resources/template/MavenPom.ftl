@@ -13,6 +13,8 @@
 		<junit.version>4.12</junit.version>
 		<hibernate.version>5.1.0.Final</hibernate.version>
 		<freemarker.version>2.3.23</freemarker.version>
+		<druid.version>1.0.20</druid.version>
+		<dbcp.version>1.4</dbcp.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -53,7 +55,7 @@
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
+			<version>${r"${dbcp.version}"}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -133,7 +135,12 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${r"${junit.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${r"${druid.version}"}</version>
 		</dependency>
 	</dependencies>
 	<build>
