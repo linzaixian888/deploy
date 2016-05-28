@@ -23,9 +23,11 @@
 		<property name="url" value="${url}" />
 		<property name="username" value="${username}" />
 		<property name="password" value="${password}" />
-		<property name="maxActive" value="100"></property>
-		<property name="maxIdle" value="30"></property>
-		<property name="maxWait" value="500"></property>
+		<property name="initialSize" value="5"></property><!--initialSize: 初始化连接-->  
+		<property name="minIdle" value="5"></property><!--minIdle: 最小空闲连接-->  
+		<property name="maxIdle" value="15"></property><!--maxIdle: 最大空闲连接-->  
+		<property name="maxActive" value="15"></property><!--maxActive: 最大连接数量-->  
+		<property name="maxWait" value="3000"></property><!--maxWait: 超时等待时间以毫秒为单位 3000毫秒/1000等于3秒-->  
 		<property name="testOnBorrow" value="true"></property>
 		<property name="validationQuery" value="select 1"> </property>
 	</bean>
