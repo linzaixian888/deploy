@@ -68,7 +68,7 @@ public abstract class ${baseDaoImpl}<T,PK extends Serializable> implements ${bas
 		return queryHql(hql);
 	}
 	@Override
-	public int countAll(){
+	public long countAll(){
 		String hql="select count(*) from "+classType.getName();
 		return countHql(hql);
 	}
@@ -412,16 +412,16 @@ public abstract class ${baseDaoImpl}<T,PK extends Serializable> implements ${bas
 		return querySqlMap(page, sb.toString(), list.toArray());
 	}
 	@Override
-	public int countHql(QueryCallBack callBack,String hql){
+	public long countHql(QueryCallBack callBack,String hql){
 		Query query=getSession().createQuery(hql);
 		if(callBack!=null){
 			callBack.filterQuery(query);
 		}
 		Long big=(Long) query.uniqueResult();
-		return big.intValue();
+		return big;
 	}
 	@Override
-	public int countHql(String hql,final Object...params){
+	public long countHql(String hql,final Object...params){
 		return countHql(new QueryCallBack() {
 			public void filterQuery(Query query) {
 				for(int i=0;i<params.length;i++){
@@ -431,7 +431,7 @@ public abstract class ${baseDaoImpl}<T,PK extends Serializable> implements ${bas
 		}, hql);
 	}
 	@Override
-	public int countHql(String hql,Map<String,Object> params){
+	public long countHql(String hql,Map<String,Object> params){
 		StringBuilder sb=new StringBuilder(hql);
 		Set<Entry<String, Object>> set=params.entrySet();
 		Iterator<Entry<String, Object>> it=set.iterator();
@@ -456,16 +456,16 @@ public abstract class ${baseDaoImpl}<T,PK extends Serializable> implements ${bas
 		return countHql(sb.toString(), list.toArray());
 	}
 	@Override
-	public int countSql(QueryCallBack callBack,String sql){
+	public long countSql(QueryCallBack callBack,String sql){
 		SQLQuery query=getSession().createSQLQuery(sql);
 		if(callBack!=null){
 			callBack.filterQuery(query);
 		}
 		BigInteger big=(BigInteger) query.uniqueResult();
-		return big.intValue();
+		return big.longValue();
 	}
 	@Override
-	public int countSql(String sql,final Object...params){
+	public long countSql(String sql,final Object...params){
 		return countSql(new QueryCallBack() {
 			public void filterQuery(Query query) {
 				for(int i=0;i<params.length;i++){
@@ -475,7 +475,7 @@ public abstract class ${baseDaoImpl}<T,PK extends Serializable> implements ${bas
 		}, sql);
 	}
 	@Override
-	public int countSql(String sql,Map<String,Object> params){
+	public long countSql(String sql,Map<String,Object> params){
 		StringBuilder sb=new StringBuilder(sql);
 		Set<Entry<String, Object>> set=params.entrySet();
 		Iterator<Entry<String, Object>> it=set.iterator();

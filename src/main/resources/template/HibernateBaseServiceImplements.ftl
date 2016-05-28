@@ -47,7 +47,7 @@ public abstract class ${baseServiceImpl}<T,PK extends Serializable> implements $
 		return get${baseDaoI}().findAll();
 	}
 
-	public int countAll() {
+	public long countAll() {
 		return get${baseDaoI}().countAll();
 	}
 

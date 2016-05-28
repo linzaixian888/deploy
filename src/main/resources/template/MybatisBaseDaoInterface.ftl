@@ -5,14 +5,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 @SuppressWarnings("rawtypes")
-public interface ${baseDaoI}<T> {
+public interface ${baseDaoI}<T,PK> {
 
 	/**
 	 * 插入记录
 	 * @param entity
 	 * @return
 	 */
-	int insert(T entity);
+	int save(T entity);
 	
 
 	
@@ -21,21 +21,21 @@ public interface ${baseDaoI}<T> {
 	 * @param list
 	 * @return
 	 */
-	int insertBatch(List<T> list);
+	int saveBatch(List<T> list);
 	
 	/**
 	 * 根据ID删除记录
 	 * @param ids
 	 * @return
 	 */
-	int deleteById(Object id);
+	int deleteById(PK id);
 	
 	/**
 	 * 根据ID删除记录
 	 * @param ids
 	 * @return
 	 */
-	int deleteByIds(Object...ids);
+	int deleteByIds(PK...ids);
 	
 	/**
 	 * 根据ID批量删除记录
@@ -96,7 +96,7 @@ public interface ${baseDaoI}<T> {
 	 * @param id
 	 * @return
 	 */
-	T findById(Object id);
+	T findById(PK id);
 	
 	
 	
@@ -105,19 +105,19 @@ public interface ${baseDaoI}<T> {
 	 * @param id
 	 * @return
 	 */
-	List<T> findByIds(Object...ids);
+	List<T> findByIds(PK...ids);
 	
 	/**
 	 * 查询表的记录数
 	 * @return
 	 */
-	int countAll();
+	long countAll();
 	
 	/**
 	 * 根据pojo查询数据记录数
 	 * @return
 	 */
-	int countByPojo(T t);
+	long countByPojo(T t);
 	
 
 }

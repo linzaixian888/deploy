@@ -27,7 +27,7 @@ public class Test${serviceI} {
 	public void testSave(){
 		${myClass.className} ${myClass.className?uncap_first} =new ${myClass.className}();
 		${serviceI?uncap_first}.save(${myClass.className?uncap_first});
-		int expected=${serviceI?uncap_first}.countAll();
+		long expected=${serviceI?uncap_first}.countAll();
 		Assert.assertEquals(expected, 1);
 	}
 	
@@ -35,7 +35,7 @@ public class Test${serviceI} {
     public void testSaveOrUpdate(){
     	${myClass.className} ${myClass.className?uncap_first} =new ${myClass.className}();
 		${serviceI?uncap_first}.saveOrUpdate(${myClass.className?uncap_first});
-		int expected=${serviceI?uncap_first}.countAll();
+		long expected=${serviceI?uncap_first}.countAll();
 		Assert.assertEquals(expected, 1);
     }
     
@@ -121,7 +121,7 @@ public class Test${serviceI} {
     		${myClass.className} ${myClass.className?uncap_first} =new ${myClass.className}();
 			${serviceI?uncap_first}.save(${myClass.className?uncap_first});
     	}
-		int size=${serviceI?uncap_first}.countAll();
+		long size=${serviceI?uncap_first}.countAll();
 		Assert.assertEquals(expected, size);
 		
     }

@@ -61,7 +61,7 @@ public interface ${baseDaoI}<T, PK extends Serializable> {
 	 * 统计全部纪录数
 	 * @return
 	 */
-	public int countAll();
+	public long countAll();
 	/**
 	 * 删除全部
 	 * @return
@@ -112,17 +112,17 @@ public interface ${baseDaoI}<T, PK extends Serializable> {
 
 	public List<Map> querySqlMap(Page page, String sql, Map<String, Object> params);
 
-	public int countHql(QueryCallBack callBack, String hql);
+	public long countHql(QueryCallBack callBack, String hql);
 
-	public int countHql(String hql, Object... params);
+	public long countHql(String hql, Object... params);
 
-	public int countHql(String hql, Map<String, Object> params);
+	public long countHql(String hql, Map<String, Object> params);
 
-	public int countSql(QueryCallBack callBack, String sql);
+	public long countSql(QueryCallBack callBack, String sql);
 
-	public int countSql(String sql, Object... params);
+	public long countSql(String sql, Object... params);
 
-	public int countSql(String sql, Map<String, Object> params);
+	public long countSql(String sql, Map<String, Object> params);
 
 	public int executeHql(String hql, Object... params);
 

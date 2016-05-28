@@ -1,6 +1,6 @@
 package ${servicePackage};
 
 import ${pojoPackage}.${myClass.className};
-public interface ${serviceI} extends ${baseServiceI}<${myClass.className}>{
+public interface ${serviceI} extends ${baseServiceI}<${myClass.className},${myClass.idField.type}>{
 
 }

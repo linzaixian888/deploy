@@ -8,7 +8,7 @@
 			</#list>
 	</resultMap>
   <@insert sqlType="${sqlType}" />
-  <insert id="insertBatch" parameterType="${myClass.className}">
+  <insert id="saveBatch" parameterType="${myClass.className}">
    	INSERT INTO ${myClass.tableName}${insertBatchKeySql} VALUES
    	<foreach item="item" index="index" collection="list" separator="," >
     	${insertBatchValueSql}
@@ -68,10 +68,10 @@
   	WHERE ${myClass.idField.columnName} IN
   	<foreach item="item" index="index" collection="array" open="("  separator="," close=")"> ${r"#"}{item}</foreach>
   </select>
-  <select id="countAll" resultType="int" >
+  <select id="countAll" resultType="long" >
      SELECT count(*) as total FROM ${myClass.tableName}
   </select>
-  <select id="countByPojo" resultType="int">
+  <select id="countByPojo" resultType="long">
   	 SELECT count(*) FROM ${myClass.tableName}
   	 <where>
   	 	<#list findByPojoSql as item>
@@ -85,11 +85,11 @@
 
 <#macro insert sqlType="">
 	<#if sqlType=="mysql">
-		<insert id="insert" parameterType="${myClass.className}" useGeneratedKeys="true" keyProperty="${myClass.idField.name}">
+		<insert id="save" parameterType="${myClass.className}" useGeneratedKeys="true" keyProperty="${myClass.idField.name}">
 	   		INSERT INTO ${myClass.tableName}${insertSql}
 	 	 </insert>
 	<#else>
-		<insert id="insert" parameterType="${myClass.className}" >
+		<insert id="save" parameterType="${myClass.className}" >
 	   		INSERT INTO ${myClass.tableName}${insertSql}
 	 	 </insert>
 	</#if>

@@ -27,18 +27,7 @@ public interface ${baseServiceI}<T, PK extends Serializable> {
 
 	public  List<T> findAll();
 	
-	public int countAll();
+	public long countAll();
 	
-	<#--
-	public int updateByPojo(T t);
-	
-	public int deleteByPojo(T t);
-	
-	public int insertByPojo(T t);
-	
-	public int insertBatch(List<T> list,String...columns);
-	
-	public List<T> findByPojo(T t);
-	-->
 
 }

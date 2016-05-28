@@ -10,7 +10,7 @@ import ${daoPackage}.${daoI};
 import ${pojoPackage}.${myClass.className};
 
 @Service
-public class ${serviceImpl} extends ${baseServiceImpl}<${myClass.className}> implements ${serviceI}{
+public class ${serviceImpl} extends ${baseServiceImpl}<${myClass.className},${myClass.idField.type}> implements ${serviceI}{
 	@Autowired
 	private ${daoI} ${daoI?uncap_first};	
 	@Autowired

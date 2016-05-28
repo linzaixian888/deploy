@@ -6,27 +6,27 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.transaction.annotation.Transactional;
 import ${daoPackage}.${baseDaoI};
 
-public class ${baseServiceImpl}<T> implements ${baseServiceI}<T> {
+public class ${baseServiceImpl}<T,PK> implements ${baseServiceI}<T,PK> {
 
-	private ${baseDaoI}<T> ${baseDaoI?uncap_first};
+	private ${baseDaoI}<T,PK> ${baseDaoI?uncap_first};
 
 	public void set${baseDaoI}(${baseDaoI} ${baseDaoI?uncap_first}) {
 		this.${baseDaoI?uncap_first} = ${baseDaoI?uncap_first};
 	}
 
-	public int insert(T t) {
-		return ${baseDaoI?uncap_first}.insert(t);
+	public int save(T t) {
+		return ${baseDaoI?uncap_first}.save(t);
 	}
 
-	public int insertBatch(List<T> list) {
-		return ${baseDaoI?uncap_first}.insertBatch(list);
+	public int saveBatch(List<T> list) {
+		return ${baseDaoI?uncap_first}.saveBatch(list);
 	}
 
-	public int deleteById(Object id) {
+	public int deleteById(PK id) {
 		return ${baseDaoI?uncap_first}.deleteById(id);
 	}
 
-	public int deleteByIds(Object...ids) {
+	public int deleteByIds(PK...ids) {
 		return ${baseDaoI?uncap_first}.deleteByIds(ids);
 	}
 
@@ -62,19 +62,19 @@ public class ${baseServiceImpl}<T> implements ${baseServiceI}<T> {
 		return ${baseDaoI?uncap_first}.findByPojo(t,rowBounds);
 	}
 
-	public T findById(Object id) {
+	public T findById(PK id) {
 		return ${baseDaoI?uncap_first}.findById(id);
 	}
 
-	public List<T> findByIds(Object...ids) {
+	public List<T> findByIds(PK...ids) {
 		return ${baseDaoI?uncap_first}.findByIds(ids);
 	}
 
-	public int countAll() {
+	public long countAll() {
 		return ${baseDaoI?uncap_first}.countAll();
 	}
 
-	public int countByPojo(T t) {
+	public long countByPojo(T t) {
 		return ${baseDaoI?uncap_first}.countByPojo(t);
 	}
 

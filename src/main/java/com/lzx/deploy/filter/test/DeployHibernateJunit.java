@@ -12,8 +12,8 @@ import com.lzx.deploy.pojo.MyClass;
 import com.lzx.deploy.util.Global;
 import com.lzx.deploy.util.StringUtil;
 
-public class DeployHibernateJunitFilter implements Filter{
-	private static Logger logger=LoggerFactory.getLogger(DeployHibernateJunitFilter.class);
+public class DeployHibernateJunit implements Filter{
+	private static Logger logger=LoggerFactory.getLogger(DeployHibernateJunit.class);
 	private String servicePackage="servicePackage";
 	private String servicePath;
 	private String i="interface";

@@ -26,7 +26,8 @@ import com.lzx.deploy.filter.springmvc.DeploySpringScan;
 import com.lzx.deploy.filter.struts2.DeployAction;
 import com.lzx.deploy.filter.struts2.DeployStrtus2Interceptor;
 import com.lzx.deploy.filter.struts2.DeployStruts2Xml;
-import com.lzx.deploy.filter.test.DeployHibernateJunitFilter;
+import com.lzx.deploy.filter.test.DeployHibernateJunit;
+import com.lzx.deploy.filter.test.DeployMybatisJunit;
 
 
 
@@ -70,6 +71,7 @@ public class DeployChooseFilter implements Filter{
 		chain.addFilter(new DeployMybatis());
 		chain.addFilter(new DeployMybatisService());
 		chain.addFilter(new DeploySpring());
+		chain.addFilter(new DeployMybatisJunit());
 		chain.addFilter(new DeployMavenPom());
 	}
 	private void addHibernateFilter(FilterChain chain){
@@ -77,7 +79,7 @@ public class DeployChooseFilter implements Filter{
 		chain.addFilter(new DeployHibernateDao());
 		chain.addFilter(new DeployHibernateService());
 		chain.addFilter(new DeploySpring());
-		chain.addFilter(new DeployHibernateJunitFilter());
+		chain.addFilter(new DeployHibernateJunit());
 		chain.addFilter(new DeployMavenPom());
 	}
 	private void addSpringMVC(FilterChain chain){
