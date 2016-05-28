@@ -16,7 +16,7 @@ public class DeployMybatis implements Filter{
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署mybatis主配置文档");
 		mybatisPath=(String) filterChain.get(mybatisPath);
-		tempPath=StringUtil.sourceParse(mybatisPath);
+		tempPath=StringUtil.resourcesParse(mybatisPath,filterChain.get("path"));
 		if(tempPath==null){
 			logger.error("[{}]该路径格式不正确，无法解析",mybatisPath);
 			throw new RuntimeException("["+mybatisPath+"]该路径格式不正确，无法解析");

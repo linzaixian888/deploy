@@ -14,7 +14,7 @@ public class DeployStruts2Xml implements Filter{
 	boolean success=true;
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署struts2主配置文档");
-		success=Global.FU.process("struts2", filterChain.getRoot(), StringUtil.sourceParse(defaultPath));
+		success=Global.FU.process("struts2", filterChain.getRoot(), StringUtil.resourcesParse(defaultPath,filterChain.get("path")));
 		if(success){
 			logger.debug("end---成功部署struts2主配置文档");
 			

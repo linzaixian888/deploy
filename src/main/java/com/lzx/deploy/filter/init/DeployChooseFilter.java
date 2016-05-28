@@ -7,6 +7,7 @@ import com.lzx.deploy.filter.Filter;
 import com.lzx.deploy.filter.FilterChain;
 import com.lzx.deploy.filter.common.DeployFreemarkerConfig;
 import com.lzx.deploy.filter.common.DeployJavaScript;
+import com.lzx.deploy.filter.common.DeployMavenPom;
 import com.lzx.deploy.filter.common.DeploySpring;
 import com.lzx.deploy.filter.common.DeployView;
 import com.lzx.deploy.filter.common.DeployWeb;
@@ -76,6 +77,7 @@ public class DeployChooseFilter implements Filter{
 		chain.addFilter(new DeployHibernateService());
 		chain.addFilter(new DeploySpring());
 		chain.addFilter(new DeployHibernateJunitFilter());
+		chain.addFilter(new DeployMavenPom());
 	}
 	private void addSpringMVC(FilterChain chain){
 		chain.addFilter(new DeployFreemarkerConfig());

@@ -26,6 +26,7 @@ import com.lzx.deploy.util.StringUtil;
  */
 public class DeployReadProjectXML extends DefaultHandler implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployReadProjectXML.class);
+	private String path="path";
 	private List<String> list=new ArrayList<String>();
 	
 	@Override
@@ -37,6 +38,7 @@ public class DeployReadProjectXML extends DefaultHandler implements Filter{
 	public void endDocument() throws SAXException {
 		setSrc();
 		setTest();
+		setResources();
 		logger.debug("end---成功读取.classpath文件");
 	}
 
@@ -56,12 +58,22 @@ public class DeployReadProjectXML extends DefaultHandler implements Filter{
 	}
 
 	public void process(FilterChain filterChain)throws Exception {
-			SAXParserFactory factory=SAXParserFactory.newInstance();
-			SAXParser parser=factory.newSAXParser();
-			String root=FileUtil.getRootPath();
-			logger.debug("项目路径是{}",root.toString());
-			File file=new File(root, ".classpath");
-			parser.parse(file, this);
+			path=(String) filterChain.get(path);
+			if(path==null){
+				logger.debug("没有指定生成目录,将生成在本项目中");
+				SAXParserFactory factory=SAXParserFactory.newInstance();
+				SAXParser parser=factory.newSAXParser();
+				String root=FileUtil.getRootPath();
+				logger.debug("项目路径是{}",root.toString());
+				File file=new File(root, ".classpath");
+				parser.parse(file, this);
+			}else{
+				logger.debug("指定生成目录为{},生成的项目为maven项目结构",path);
+				StringUtil.setSource(new File(path,"src/main/java").getAbsolutePath());
+				StringUtil.setTest(new File(path,"src/test/java").getAbsolutePath());
+				StringUtil.setResources(new File(path,"src/main/resources").getAbsolutePath());
+			}
+			
 	}
 	private void setSrc(){
 		logger.debug("获取到的源路径为：{}",list);
@@ -101,6 +113,29 @@ public class DeployReadProjectXML extends DefaultHandler implements Filter{
 			}
 			StringUtil.setSource(list.get(0));
 			logger.debug("设置测试路径为第一个:{}",list.get(0));
+		}
+	}
+	private void setResources(){
+		int size=list.size();
+		if(size==0){
+			logger.debug("获取不到源路径，默认资源路径为:test");
+		}else{
+			for(String str:list){
+				if(str.endsWith("resources")){
+					logger.debug("设置资源路径为:{}",str);
+					StringUtil.setResources(str);
+					return;
+				}
+			}
+			for(String str:list){
+				if(str.indexOf("resources")!=-1){
+					logger.debug("设置资源路径为:{}",str);
+					StringUtil.setResources(str);
+					return;
+				}
+			}
+			StringUtil.setResources(list.get(0));
+			logger.debug("设置资源路径为第一个:{}",list.get(0));
 		}
 	}
 	@Override

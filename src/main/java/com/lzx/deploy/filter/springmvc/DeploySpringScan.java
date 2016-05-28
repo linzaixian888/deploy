@@ -18,7 +18,7 @@ public class DeploySpringScan implements Filter{
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署spring控制器扫描文档");
 		springScanPath=(String) filterChain.get(springScanPath);
-		tempPath=StringUtil.sourceParse(springScanPath);
+		tempPath=StringUtil.resourcesParse(springScanPath,filterChain.get("path"));
 		if(tempPath==null){
 			logger.error("[{}]该路径格式不正确，无法解析",springScanPath);
 			throw new RuntimeException("["+springScanPath+"]该路径格式不正确，无法解析");

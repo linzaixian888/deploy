@@ -30,9 +30,9 @@ public class DeployMain {
 	 */
 	public FilterChain getInitChain(){
 		FilterChain chain=new FilterChain();
-		chain.addFilter(new DeployReadProjectXML());
 		chain.addFilter(new DeployReadConfig());
 		chain.addFilter(new DeployReadMyXmlConfig(configPath));
+		chain.addFilter(new DeployReadProjectXML());
 		chain.addFilter(new DeployInitDBData());
 		chain.addFilter(new DeploySwitch());
 		return chain;

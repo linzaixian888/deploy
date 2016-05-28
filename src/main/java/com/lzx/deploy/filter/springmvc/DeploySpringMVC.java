@@ -16,7 +16,7 @@ public class DeploySpringMVC implements Filter{
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署springMVC文档");
 		springMVCPath=(String) filterChain.get(springMVCPath);
-		tempPath=StringUtil.sourceParse(springMVCPath);
+		tempPath=StringUtil.resourcesParse(springMVCPath,filterChain.get("path"));
 		if(tempPath==null){
 			logger.error("[{}]该路径格式不正确，无法解析",springMVCPath);
 			throw new RuntimeException("["+springMVCPath+"]该路径格式不正确，无法解析");

@@ -5,6 +5,7 @@ import java.io.File;
 public class StringUtil {
 	public static String SOURCE="src"+File.separator;
 	public static String TEST="test"+File.separator;
+	public static String RESOURCES="src"+File.separator;
 	public static void setSource(String str){
 		if(!str.endsWith("/")&&!str.endsWith("\\")){
 			SOURCE=str+File.separator;
@@ -15,6 +16,13 @@ public class StringUtil {
 			TEST=str+File.separator;
 		}
 	}
+	public static void setResources(String str){
+		if(!str.endsWith("/")&&!str.endsWith("\\")){
+			RESOURCES=str+File.separator;
+		}
+	}
+	
+	
 	/**
 	 * 代码包路径转化成相对路径
 	 * @param str
@@ -63,11 +71,23 @@ public class StringUtil {
 			return temp.toUpperCase()+str.substring(1);
 		}
 	}
-	public static String sourceParse(String path){
+//	public static String sourceParse(String path){
+//		if(path.startsWith("classpath:")){
+//			path=SOURCE+path.substring(10);
+//		}else if(path.startsWith("/")){
+//			path=FileUtil.getWebRoot()+path;
+//		}else{
+//			path=null;
+//		}
+//		return path;
+//	}
+	public static String resourcesParse(String path,Object confPath){
 		if(path.startsWith("classpath:")){
-			path=SOURCE+path.substring(10);
-		}else if(path.startsWith("/")){
+			path=RESOURCES+path.substring(10);
+		}else if(path.startsWith("/")&&confPath==null){
 			path=FileUtil.getWebRoot()+path;
+		}else if(path.startsWith("/")&&confPath!=null){
+			path=new File(confPath.toString(),"src/main/webapp").getAbsolutePath();
 		}else{
 			path=null;
 		}

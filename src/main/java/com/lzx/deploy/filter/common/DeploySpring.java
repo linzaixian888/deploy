@@ -15,7 +15,7 @@ public class DeploySpring implements Filter{
 	public void process(FilterChain filterChain) {
 		logger.debug("begin---开始部署spring主配置文档");
 		springPath=(String) filterChain.get(springPath);
-		String tempPath=StringUtil.sourceParse(springPath);
+		String tempPath=StringUtil.resourcesParse(springPath,filterChain.get("path"));
 		if(tempPath==null){
 			logger.error("[{}]该路径格式不正确，无法解析",springPath);
 			throw new RuntimeException("["+springPath+"]该路径格式不正确，无法解析");

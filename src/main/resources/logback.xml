@@ -20,7 +20,7 @@
 			</pattern>
 		</encoder>
 	</appender>
-	 <logger name="com" level="warn"  additivity="false">
+	 <logger name="com" level="debug"  additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>  
 	<root level="error">

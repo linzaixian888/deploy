@@ -14,7 +14,7 @@ public class DeployFreemarkerConfig implements Filter{
 	private boolean success;
 	public void process(FilterChain chain) {
 		logger.debug("开始部署freemarker配置文件");
-		success=Global.FU.process("freemarker", chain.getRoot(), StringUtil.sourceParse(defaultPath));
+		success=Global.FU.process("freemarker", chain.getRoot(), StringUtil.resourcesParse(defaultPath,chain.get("path")));
 		if(success){
 			logger.debug("成功部署freemarker配置文件");
 		}else{
