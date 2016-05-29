@@ -20,6 +20,7 @@
 		<freemarker.version>2.3.23</freemarker.version>
 		<druid.version>1.0.20</druid.version>
 		<dbcp.version>1.4</dbcp.version>
+		<jackson.version>2.7.4</jackson.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -84,11 +85,10 @@
 			<version>1.7.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.13</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${r"${jackson.version}"}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
