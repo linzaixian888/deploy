@@ -129,7 +129,6 @@ public class DBHelper {
 						table.setIdColumn(column);
 						continue;
 					}
-					System.out.println(column);
 					columnList.add(column);
 				}
 				columns.close();
