@@ -58,9 +58,9 @@ public class DeployInitDBData implements Filter{
 				//对id属性的赋值
 				myClass.setIdField(new MyField());
 				myClass.getIdField().setColumnName(table.getIdColumn().getColumnName());
-				myClass.getIdField().setType(getTypeString(table.getIdColumn().getColumnType(), table.getIdColumn(), table));
+				myClass.getIdField().setType(getTypeString(table.getIdColumn().getDataType(), table.getIdColumn(), table));
 				myClass.getIdField().setName(toIdField(table.getIdColumn().getColumnName()));
-				myClass.getIdField().setRemark(table.getIdColumn().getRemark());
+				myClass.getIdField().setRemark(table.getIdColumn().getRemarks());
 				if(myClass.getIdField().getRemark()==null){
 					myClass.getIdField().setRemark("");
 				}
@@ -90,8 +90,8 @@ public class DeployInitDBData implements Filter{
 			MyField field=new MyField();
 			field.setName(toFieid(column.getColumnName()));
 			field.setColumnName(column.getColumnName());
-			field.setType(getTypeString(column.getColumnType(),column,table));
-			field.setRemark(column.getRemark());
+			field.setType(getTypeString(column.getDataType(),column,table));
+			field.setRemark(column.getRemarks());
 			//对没有列注释的处理
 			if(field.getRemark()==null){
 				field.setRemark("");

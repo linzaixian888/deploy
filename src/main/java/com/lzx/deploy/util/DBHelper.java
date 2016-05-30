@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.output.ClosedOutputStream;
+
 import com.lzx.deploy.pojo.ChildTable;
 import com.lzx.deploy.pojo.Column;
 import com.lzx.deploy.pojo.ParentTable;
@@ -95,20 +97,39 @@ public class DBHelper {
 				ResultSet idColumns=db.getPrimaryKeys(null, null, tableName);
 				while(idColumns.next()){
 					table.getIdColumn().setColumnName(idColumns.getString("COLUMN_NAME"));
+					
 				}
 				idColumns.close();
 				ResultSet columns=db.getColumns(null, null, tableName, null);
 				List<Column> columnList=table.getColumns();
 				while(columns.next()){
 					Column column=new Column();
+					column.setTableCat(columns.getString("TABLE_CAT"));
+					column.setTableSchem(columns.getString("TABLE_SCHEM"));
+					column.setTableName(columns.getString("TABLE_NAME"));
 					column.setColumnName(columns.getString("COLUMN_NAME"));
-					column.setColumnType(columns.getInt("DATA_TYPE"));
-					column.setRemark(columns.getString("REMARKS"));
+					column.setDataType(columns.getInt("DATA_TYPE"));
+					column.setTypeName(columns.getString("TYPE_NAME"));
+					column.setColumnSize(columns.getInt("COLUMN_SIZE"));
+					column.setDecimalDigits(columns.getInt("DECIMAL_DIGITS"));
+					column.setNumPrecRadix(columns.getInt("NUM_PREC_RADIX"));
+					column.setNullable(columns.getInt("NULLABLE"));
+					column.setRemarks(columns.getString("REMARKS"));
+					column.setColumnDef(columns.getString("COLUMN_DEF"));
+					column.setCharOctetLength(columns.getInt("CHAR_OCTET_LENGTH"));
+					column.setOrdinal_posuition(columns.getInt("ORDINAL_POSITION"));
+					column.setIsNullable(columns.getString("IS_NULLABLE"));
+					//获取SCOPE_CATLOG在mysql里面报错
+//					column.setScopeCatlog(columns.getString("SCOPE_CATLOG "));
+					column.setScopeSchema(columns.getString("SCOPE_SCHEMA"));
+					column.setScopeTable(columns.getString("SCOPE_TABLE"));
+					column.setSourceDataType(columns.getShort("SOURCE_DATA_TYPE"));
+					column.setIsAutoincrement(columns.getString("IS_AUTOINCREMENT"));
 					if(column.getColumnName().equals(table.getIdColumn().getColumnName())){
-						table.getIdColumn().setColumnType(column.getColumnType());
-						table.getIdColumn().setRemark(column.getRemark());
+						table.setIdColumn(column);
 						continue;
 					}
+					System.out.println(column);
 					columnList.add(column);
 				}
 				columns.close();
