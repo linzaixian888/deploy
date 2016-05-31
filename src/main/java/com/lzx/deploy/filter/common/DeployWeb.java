@@ -27,7 +27,7 @@ public class DeployWeb implements Filter{
 		}
 		if(webPath!=null){
 			logger.debug("web.xml的路径是:{}",webPath);
-			Global.FU.process("webXml.ftl", filterChain.getRoot(), webPath);
+			Global.FU.process("webXml", filterChain.getRoot(), webPath);
 			logger.debug("end---成功部署web.xml");
 		}else{
 			logger.error("获取web.xml路径失败，无法部署");

@@ -124,7 +124,7 @@ public class FreemarkerUtil {
 	 * @return
 	 */
 	public synchronized int  addTemplateLoader(TemplateLoader templateLoader){
-		isSetLoader=true;
+		isSetLoader=false;
 		list.add(templateLoader);
 		return list.size()-1;
 	}

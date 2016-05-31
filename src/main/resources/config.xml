@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root framework="spring,mybatis,struts2">
+<root framework="spring,mybatis,springmvc">
 	<pojo>
-		<pojoPackage>com.bluedon.lzx.bean</pojoPackage>
+		<pojoPackage>com.linzaixian.bean</pojoPackage>
 	</pojo>
 	<dao>
-		<mapperPackage>com.bluedon.lzx.dao</mapperPackage>
+		<daoPackage>com.linzaixian.dao</daoPackage>
 	</dao>
 	<service>
-		<servicePackage>com.bluedon.lcj.service</servicePackage>
+		<servicePackage>com.linzaixian.service</servicePackage>
 	</service>
 	<config>
 		<mybatisPath>classpath:mybatis.xml</mybatisPath>
 		<springPath>classpath:spring.xml</springPath>
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
-		<path>e:/test</path>
-		<dataPool>druid</dataPool>
+		<path>e:/linzaixian</path>
+		<dataPool>dbcp</dataPool>
 		<type>bs</type>
 	</config>
 	<controller>
-		<controllerPackage>com.bluedon.bsmon.action</controllerPackage>
+		<controllerPackage>com.linzaixian.action</controllerPackage>
 		<controllerSuffix>do</controllerSuffix>
 	</controller>
 	<interceptor>
 		<interceptorClassName>MyInterceptor</interceptorClassName>
-		<interceptorPackage>com.bluedon.bsmon.interceptor</interceptorPackage>
+		<interceptorPackage>com.linzaixian.interceptor</interceptorPackage>
 	</interceptor>
 	<web>
 		<js>
