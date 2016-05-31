@@ -1,6 +1,7 @@
 package com.lzx.deploy.filter.struts2;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import com.lzx.deploy.util.FileUtil;
 import com.lzx.deploy.util.Global;
 import com.lzx.deploy.util.StringUtil;
 
+import freemarker.template.TemplateException;
+
 public class DeployAction implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployAction.class);
 	private String prefix="prefix";
@@ -19,8 +22,7 @@ public class DeployAction implements Filter{
 	private String controllerPackage="controllerPackage";
 	private String path="path";
 	private String controllerPath;
-	boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署Action");
 		prefix=(String) filterChain.get(prefix);
 		path=(String) filterChain.get(path);
@@ -36,13 +38,8 @@ public class DeployAction implements Filter{
 		suffix=(String) filterChain.get(suffix);
 		logger.debug("视图所在目录为:{}",viewFile.getAbsolutePath());
 		List<File> all=FileUtil.getFileList(viewFile);
-		success=Global.FU.process("BaseAction", filterChain.getRoot(), controllerPath+"base/BaseAction.java");
-		if(success){
-			logger.debug("成功部署BaseAction");
-		}else{
-			logger.error("部署BaseAction失败");
-			throw new RuntimeException("部署BaseAction失败");
-		}
+		Global.FU.process("BaseAction", filterChain.getRoot(), controllerPath+"base/BaseAction.java");
+		logger.debug("成功部署BaseAction");
 		for(File f:all){
 			if(f.getAbsolutePath().endsWith(suffix)){
 				String name=f.getName();
@@ -50,13 +47,8 @@ public class DeployAction implements Filter{
 				String controllerName=toControllerName(name);
 				filterChain.put("pageName", name);
 				filterChain.put("controllerName", controllerName);
-				success=Global.FU.process("Action", filterChain.getRoot(), controllerPath+controllerName+"Action.java");
-				if(success){
-					logger.debug("成功部署{}Action.java",controllerName);
-				}else{
-					logger.error("部署{}Action.java失败",controllerName);
-					throw new RuntimeException("部署"+controllerName+"Action.java失败");
-				}
+				Global.FU.process("Action", filterChain.getRoot(), controllerPath+controllerName+"Action.java");
+				logger.debug("成功部署{}Action.java",controllerName);
 			}
 		}
 		logger.debug("end---成功部署所有Action");

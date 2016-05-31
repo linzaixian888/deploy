@@ -21,7 +21,7 @@ public class DeployView implements Filter{
 	private String prefix="prefix";
 	private String suffix="suffix";
 	private String path="path";
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署view");
 		prefix=(String) filterChain.get(prefix);
 		suffix=(String) filterChain.get(suffix);

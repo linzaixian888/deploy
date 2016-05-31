@@ -13,7 +13,6 @@ public class DeployMavenPom implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployFreemarkerConfig.class);
 	private String path="path";
 	private String pojoPackage="pojoPackage";
-	private boolean success;
 	@Override
 	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("开始部署pom配置文件");
@@ -30,13 +29,8 @@ public class DeployMavenPom implements Filter{
 			pojoPackage=(String) filterChain.get(pojoPackage);
 			filterChain.put("artifactId", projectName);
 			filterChain.put("groupId", getBasePackage(pojoPackage));
-			success=Global.FU.process("MavenPom", filterChain.getRoot(),new File(path, "pom.xml"));
-			if(success){
-				logger.debug("成功部署pom配置文件");
-			}else{
-				logger.error("部署pom配置文件失败");
-				new RuntimeException("部署pom配置文件失败");
-			}
+			Global.FU.process("MavenPom", filterChain.getRoot(),new File(path, "pom.xml"));
+			logger.debug("成功部署pom配置文件");
 		}
 		
 	}

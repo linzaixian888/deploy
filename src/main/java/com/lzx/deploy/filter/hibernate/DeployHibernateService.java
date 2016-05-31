@@ -21,8 +21,7 @@ public class DeployHibernateService implements Filter{
 	private String impl="implements";
 	private String servicePath;
 	private List<MyClass> myClasses;
-	boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署service接口和实现");
 		servicePackage=(String) filterChain.get(servicePackage);
 		i=(String) filterChain.get(i);
@@ -37,14 +36,9 @@ public class DeployHibernateService implements Filter{
 		String baseServiceImpl=format(impl, baseService);
 		filterChain.put("baseServiceI", baseServiceI);
 		filterChain.put("baseServiceImpl", baseServiceImpl);
-		success=Global.FU.process("HibernateBaseServiceInterface", filterChain.getRoot(), servicePath+"base/"+baseServiceI+".java")
-				&&Global.FU.process("HibernateBaseServiceImplements", filterChain.getRoot(), servicePath+"base/"+baseServiceImpl+".java");
-		if(success){
-			logger.debug("成功部署BaseService接口:{}和实现:{}",baseServiceI,baseServiceImpl);
-		}else{
-			logger.error("部署BaseService接口:{}和实现:{}失败",baseServiceI,baseServiceImpl);
-			throw new RuntimeException("部署BaseService接口:"+baseServiceI+"和实现:"+baseServiceImpl+"失败");
-		}
+		Global.FU.process("HibernateBaseServiceInterface", filterChain.getRoot(), servicePath+"base/"+baseServiceI+".java");
+		Global.FU.process("HibernateBaseServiceImplements", filterChain.getRoot(), servicePath+"base/"+baseServiceImpl+".java");
+		logger.debug("成功部署BaseService接口:{}和实现:{}",baseServiceI,baseServiceImpl);
 		for(MyClass myClass:myClasses){
 			if(myClass.getIdField()==null){
 				logger.warn("{}类没有设置主键,跳过该类的service部署",myClass.getClassName());
@@ -59,14 +53,9 @@ public class DeployHibernateService implements Filter{
 			String serviceImpl=format(impl, myClass.getClassName()+"Service");
 			filterChain.put("serviceI", serviceI);
 			filterChain.put("serviceImpl", serviceImpl);
-			success=Global.FU.process("HibernateServiceImplements", filterChain.getRoot(), servicePath+serviceImpl+".java")
-				  &&Global.FU.process("HibernateServiceInterface", filterChain.getRoot(), servicePath+serviceI+".java");
-			if(success){
-				logger.debug("成功部署serivce类的接口:{}和实现:{}",serviceI,serviceImpl);
-			}else{
-				logger.error("部署serivce类的接口:{}和实现:{}失败",serviceI,serviceImpl);
-				throw new RuntimeException("部署serivce类的接口:"+serviceI+"和实现:"+serviceImpl+"失败");
-			}
+			Global.FU.process("HibernateServiceImplements", filterChain.getRoot(), servicePath+serviceImpl+".java");
+			Global.FU.process("HibernateServiceInterface", filterChain.getRoot(), servicePath+serviceI+".java");
+			logger.debug("成功部署serivce类的接口:{}和实现:{}",serviceI,serviceImpl);
 		}
 		logger.debug("end---成功部署所有service接口和实现");
 	}

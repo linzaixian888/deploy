@@ -14,8 +14,7 @@ public class DeployWeb implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeployWeb.class);
 	private String webPath="webPath";
 	private String path="path";
-	private boolean success;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署web.xml");
 		webPath=(String) filterChain.get(webPath);
 		if(webPath==null){
@@ -28,12 +27,8 @@ public class DeployWeb implements Filter{
 		}
 		if(webPath!=null){
 			logger.debug("web.xml的路径是:{}",webPath);
-			success=Global.FU.process("webXml.ftl", filterChain.getRoot(), webPath);
-			if(success){
-				logger.debug("end---成功部署web.xml");
-			}else{
-				logger.error("end---部署web.xml失败");
-			}
+			Global.FU.process("webXml.ftl", filterChain.getRoot(), webPath);
+			logger.debug("end---成功部署web.xml");
 		}else{
 			logger.error("获取web.xml路径失败，无法部署");
 		}

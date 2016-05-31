@@ -17,21 +17,15 @@ public class DeployIServicePlugin implements Filter{
 	private List<MyClass> myClasses;
 	private String servicePackage="servicePackage";
 	private String servicePath;
-	boolean success=true;
-	public void process(FilterChain chain) {
+	public void process(FilterChain chain) throws Exception {
 		servicePackage=(String) chain.get(servicePackage);
 		myClasses=chain.getClassList();
 		servicePath=StringUtil.sourcePackageToPath(servicePackage);
 		new File(servicePath).mkdirs();
 		for(MyClass myClass:myClasses){
 			chain.put("myClass", myClass);
-			success=Global.FU.process("plugin_iservice", chain.getRoot(), servicePath+"I"+myClass.getClassName()+"Service.java");
-			if(success){
-				logger.debug("成功部署{}IService类",myClass.getClassName());
-			}else{
-				logger.error("部署I{}Service类失败",myClass.getClassName());
-				throw new RuntimeException("部署I"+myClass.getClassName()+"Service类失败");
-			}
+			Global.FU.process("plugin_iservice", chain.getRoot(), servicePath+"I"+myClass.getClassName()+"Service.java");
+			logger.debug("成功部署{}IService类",myClass.getClassName());
 		}
 		logger.debug("end---成功部署所有IService类");
 		

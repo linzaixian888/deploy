@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root framework="spring,mybatis,springmvc">
+<root framework="spring,mybatis,struts2">
 	<pojo>
-		<pojoPackage>com.bluedon.bsmon.bean</pojoPackage>
+		<pojoPackage>com.bluedon.lzx.bean</pojoPackage>
 	</pojo>
 	<dao>
-		<mapperPackage>com.bluedon.bsmon.dao</mapperPackage>
+		<mapperPackage>com.bluedon.lzx.dao</mapperPackage>
 	</dao>
 	<service>
-		<servicePackage>com.bluedon.bsmon.service</servicePackage>
+		<servicePackage>com.bluedon.lcj.service</servicePackage>
 	</service>
 	<config>
 		<mybatisPath>classpath:mybatis.xml</mybatisPath>
 		<springPath>classpath:spring.xml</springPath>
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
-		<path>e:/struts2</path>
+		<path>e:/test</path>
 		<dataPool>druid</dataPool>
 		<type>bs</type>
 	</config>

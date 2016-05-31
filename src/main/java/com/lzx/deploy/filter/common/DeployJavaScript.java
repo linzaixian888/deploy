@@ -18,8 +18,7 @@ public class DeployJavaScript implements Filter{
 	private String suffix="suffix";
 	private String jsPath="jsPath";
 	private String path="path";
-	boolean success=true;
-	public void process(FilterChain chain)  {
+	public void process(FilterChain chain) throws Exception  {
 		logger.debug("begin---开始部署javascript");
 		prefix=(String) chain.get(prefix);
 		jsPath=(String) chain.get(jsPath);
@@ -48,13 +47,8 @@ public class DeployJavaScript implements Filter{
 				}else{
 					String tempPath=FileUtil.getProjectName()+StringUtil.getPath(jsPath)+temp.getName();
 					chain.put("jsScript", tempPath);
-					success=Global.FU.process("js", chain.getRoot(), temp);
-					if(success){
-						logger.debug("成功部署{}.js",jsName);
-					}else{
-						logger.error("部署{}.js失败",jsName);
-						throw new RuntimeException("部署"+jsName+".js失败");
-					}
+					Global.FU.process("js", chain.getRoot(), temp);
+					logger.debug("成功部署{}.js",jsName);
 				}
 			}
 		}

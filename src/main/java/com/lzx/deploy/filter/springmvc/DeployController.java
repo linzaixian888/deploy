@@ -19,8 +19,7 @@ public class DeployController implements Filter{
 	private String controllerPackage="controllerPackage";
 	private String controllerPath;
 	private String path="path";
-	boolean success=true;
-	public void process(FilterChain chain) {
+	public void process(FilterChain chain) throws Exception {
 		logger.debug("begin---开始部署controller");
 		prefix=(String) chain.get(prefix);
 		suffix=(String) chain.get(suffix);
@@ -42,13 +41,8 @@ public class DeployController implements Filter{
 				String controllerName=toControllerName(name);
 				chain.put("pageName", name);
 				chain.put("controllerName", controllerName);
-				success=Global.FU.process("Controller", chain.getRoot(), controllerPath+controllerName+"Controller.java");
-				if(success){
-					logger.debug("成功部署{}Controller.java",controllerName);
-				}else{
-					logger.error("部署{}Controller.java失败",controllerName);
-					throw new RuntimeException("部署"+controllerName+"Controller.java失败");
-				}
+				Global.FU.process("Controller", chain.getRoot(), controllerPath+controllerName+"Controller.java");
+				logger.debug("成功部署{}Controller.java",controllerName);
 			}
 		}
 		logger.debug("end---成功部署所有controller");

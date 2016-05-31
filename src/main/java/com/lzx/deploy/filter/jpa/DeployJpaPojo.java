@@ -27,20 +27,14 @@ public class DeployJpaPojo implements Filter{
 		pojoName=(String) filterChain.get(pojoName);
 		pojoPath=StringUtil.sourcePackageToPath(pojoPackage);
 		new File(pojoPath).mkdirs();
-		boolean success=true;
 		for(MyClass myClass:myClasses){
 			filterChain.put("myClass", myClass);
 			logger.debug("开始进行类名的格式化");
 			String pojoNameFormat=MessageFormat.format(pojoName, myClass.getClassName());
 			logger.debug("{}转换为{}",myClass.getClassName(),pojoNameFormat);
 			myClass.setClassName(pojoNameFormat);
-			success=Global.FU.process("JpaPojo", filterChain.getRoot(), pojoPath+myClass.getClassName()+".java");
-			if(success){
-				logger.debug("已部署POJO类:{}",myClass.getClassName());
-			}else{
-				logger.error("部署POJO类:{}失败",myClass.getClassName());
-				throw new RuntimeException("部署POJO类:"+myClass.getClassName()+"失败");
-			}
+			Global.FU.process("JpaPojo", filterChain.getRoot(), pojoPath+myClass.getClassName()+".java");
+			logger.debug("已部署POJO类:{}",myClass.getClassName());
 		}
 		logger.debug("end---成功部署所有pojo类");
 		

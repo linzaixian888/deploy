@@ -17,21 +17,15 @@ public class DeployDaoPlugin implements Filter{
 	private List<MyClass> myClasses;
 	private String mapperPackage="mapperPackage";
 	private String mapperPath;
-	boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		mapperPackage=(String) filterChain.get(mapperPackage);
 		myClasses=filterChain.getClassList();
 		mapperPath=StringUtil.sourcePackageToPath(mapperPackage);
 		new File(mapperPath).mkdirs();
 		for(MyClass myClass:myClasses){
 			filterChain.put("myClass", myClass);
-			success=Global.FU.process("plugin_dao", filterChain.getRoot(), mapperPath+myClass.getClassName()+"Dao.java");
-			if(success){
-				logger.debug("成功部署{}Dao类",myClass.getClassName());
-			}else{
-				logger.error("部署{}Dao类失败",myClass.getClassName());
-				throw new RuntimeException("部署"+myClass.getClassName()+"Dao类失败");
-			}
+			Global.FU.process("plugin_dao", filterChain.getRoot(), mapperPath+myClass.getClassName()+"Dao.java");
+			logger.debug("成功部署{}Dao类",myClass.getClassName());
 		}
 		logger.debug("end---成功部署所有Dao类");
 		

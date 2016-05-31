@@ -12,8 +12,7 @@ public class DeploySpringMVC implements Filter{
 	private static Logger logger=LoggerFactory.getLogger(DeploySpringMVC.class);
 	private String springMVCPath="springMVCPath";
 	private String tempPath;
-	boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署springMVC文档");
 		springMVCPath=(String) filterChain.get(springMVCPath);
 		tempPath=StringUtil.resourcesParse(springMVCPath,filterChain.get("path"));
@@ -21,12 +20,7 @@ public class DeploySpringMVC implements Filter{
 			logger.error("[{}]该路径格式不正确，无法解析",springMVCPath);
 			throw new RuntimeException("["+springMVCPath+"]该路径格式不正确，无法解析");
 		}
-		success=Global.FU.process("springMVC", filterChain.getRoot(), tempPath);
-		if(success){
-			logger.debug("end---成功部署springMVC文档");
-		}else{
-			logger.error("部署springMVC文档失败");
-			throw new RuntimeException("部署springMVC文档失败");
-		}
+		Global.FU.process("springMVC", filterChain.getRoot(), tempPath);
+		logger.debug("end---成功部署springMVC文档");
 	}
 }

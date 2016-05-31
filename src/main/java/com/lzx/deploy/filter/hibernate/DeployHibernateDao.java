@@ -20,8 +20,7 @@ public class DeployHibernateDao implements Filter{
 	private String i="interface";
 	private String impl="implements";
 	private List<MyClass> myClasses;
-	boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署Dao类");
 		daoPackage=(String) filterChain.get(daoPackage);
 		i=(String) filterChain.get(i);
@@ -34,16 +33,11 @@ public class DeployHibernateDao implements Filter{
 		String baseDaoImpl=format(impl, baseDao);
 		filterChain.put("baseDaoI", baseDaoI);
 		filterChain.put("baseDaoImpl", baseDaoImpl);
-		success=Global.FU.process("HibernateBaseDaoImplements", filterChain.getRoot(), daoPath+"base/"+baseDaoImpl+".java")
-				&&Global.FU.process("HibernateBaseDaoInterface", filterChain.getRoot(), daoPath+"base/"+baseDaoI+".java")
-				&&Global.FU.process("QueryCallBack", filterChain.getRoot(), daoPath+"base/QueryCallBack.java")
-				&&Global.FU.process("Page", filterChain.getRoot(), daoPath+"base/Page.java");
-		if(success){
-			logger.debug("成功部署{}类、{}类、QueryCallBack类、Page类",baseDaoI,baseDaoImpl);
-		}else{
-			logger.error("部署{}类、{}类、QueryCallBack类、Page类失败",baseDaoI,baseDaoImpl);
-			throw new RuntimeException("部署"+baseDaoI+"类、"+baseDaoImpl+"类、QueryCallBack类、Page类失败");
-		}
+		Global.FU.process("HibernateBaseDaoImplements", filterChain.getRoot(), daoPath+"base/"+baseDaoImpl+".java");
+		Global.FU.process("HibernateBaseDaoInterface", filterChain.getRoot(), daoPath+"base/"+baseDaoI+".java");
+		Global.FU.process("QueryCallBack", filterChain.getRoot(), daoPath+"base/QueryCallBack.java");
+		Global.FU.process("Page", filterChain.getRoot(), daoPath+"base/Page.java");
+		logger.debug("成功部署{}类、{}类、QueryCallBack类、Page类",baseDaoI,baseDaoImpl);
 		for(MyClass myClass:myClasses){
 			if(myClass.getIdField()==null){
 				logger.warn("{}类没有设置主键,跳过该类的dao部署",myClass.getClassName());
@@ -54,14 +48,9 @@ public class DeployHibernateDao implements Filter{
 			String daoImpl=format(impl, myClass.getClassName()+"Dao");
 			filterChain.put("daoI", daoI);
 			filterChain.put("daoImpl", daoImpl);
-			success=Global.FU.process("HibernateDaoImplements", filterChain.getRoot(),daoPath+daoImpl+".java")
-					&&Global.FU.process("HibernateDaoInterface", filterChain.getRoot(),daoPath+daoI+".java");
-			if(success){
-				logger.debug("成功部署Dao类的接口:{}和实现:{}",daoI,daoImpl);
-			}else{
-				logger.error("部署Dao类的接口:{}和实现:{}",daoI,daoImpl);
-				throw new RuntimeException("部署Dao类的接口:{}和实现:{}失败");
-			}
+			Global.FU.process("HibernateDaoImplements", filterChain.getRoot(),daoPath+daoImpl+".java");
+			Global.FU.process("HibernateDaoInterface", filterChain.getRoot(),daoPath+daoI+".java");
+			logger.debug("成功部署Dao类的接口:{}和实现:{}",daoI,daoImpl);
 		}
 		logger.debug("end---成功部署所有Dao类");
 		

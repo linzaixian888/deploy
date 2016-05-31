@@ -19,9 +19,8 @@ public class DeployMybatisJunit implements Filter{
 	private String i="interface";
 	private String impl="implements";
 	private List<MyClass> myClasses;
-	boolean success=true;
 	@Override
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		myClasses=filterChain.getClassList();
 		servicePackage=(String) filterChain.get(servicePackage);
 		servicePath=StringUtil.testPackageToPath(servicePackage);
@@ -41,13 +40,8 @@ public class DeployMybatisJunit implements Filter{
 			String serviceImpl=format(impl, myClass.getClassName()+"Service");
 			filterChain.put("serviceI", serviceI);
 			filterChain.put("serviceImpl", serviceImpl);
-			success=Global.FU.process("MybatisJunit", filterChain.getRoot(), servicePath+"Test"+serviceI+".java");
-			if(success){
-				logger.debug("成功部署测试类:{}","Test"+serviceI);
-			}else{
-				logger.error("部署测试类:{}失败","Test"+serviceI);
-				throw new RuntimeException("部署测试类:Test"+serviceI+"失败");
-			}
+			Global.FU.process("MybatisJunit", filterChain.getRoot(), servicePath+"Test"+serviceI+".java");
+			logger.debug("成功部署测试类:{}","Test"+serviceI);
 		}
 		
 		

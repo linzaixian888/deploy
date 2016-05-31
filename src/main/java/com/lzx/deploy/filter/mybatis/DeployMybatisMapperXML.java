@@ -22,8 +22,7 @@ public class DeployMybatisMapperXML implements Filter{
 	private String i="interface";
 	private List<MyClass> myClasses;
 	private String daoXMLPath;
-	boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署DaoXML文档");
 		myClasses=filterChain.getClassList();
 		i=(String) filterChain.get(i);
@@ -56,13 +55,8 @@ public class DeployMybatisMapperXML implements Filter{
 			filterChain.put("myClass", myClass);
 			String daoI=format(i, myClass.getClassName()+"Dao");
 			filterChain.put("daoI", daoI);
-			success=Global.FU.process("MybatisDaoXML", filterChain.getRoot(), daoXMLPath+File.separator+daoI+".xml");
-			if(success){
-				logger.debug("成功部署{}XML文档",daoI);
-			}else{
-				logger.error("部署{}XML文档失败",daoI);
-				throw new RuntimeException("部署"+daoI+"XML文档失败");
-			}
+			Global.FU.process("MybatisDaoXML", filterChain.getRoot(), daoXMLPath+File.separator+daoI+".xml");
+			logger.debug("成功部署{}XML文档",daoI);
 		}
 		logger.debug("end---成功部署所有DaoXML文档");
 		

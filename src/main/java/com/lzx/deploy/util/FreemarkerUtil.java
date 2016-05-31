@@ -9,14 +9,19 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileCleaningTracker;
+
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
+import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateNotFoundException;
 
 
 
@@ -28,8 +33,17 @@ public class FreemarkerUtil {
 	private boolean isCloseStream=true;
 	
 	public FreemarkerUtil(){
-		init();
+		initDefault();
 	}
+	public FreemarkerUtil(Configuration configuration){
+		TemplateLoader templateLoader=configuration.getTemplateLoader();
+		if(templateLoader!=null){
+			addTemplateLoader(templateLoader);
+		}
+		this.cfg=configuration;
+		
+	}
+	
 	/**
 	 * 返回当前加载器个数
 	 * @return
@@ -63,14 +77,19 @@ public class FreemarkerUtil {
 	 * @param suffix
 	 */
 	public void setSuffix(String suffix){
-		this.suffix=suffix;
+		if(suffix.startsWith(".")){
+			this.suffix=suffix;
+		}else{
+			this.suffix="."+suffix;
+		}
+		
 	}
 	/**
 	 * 消除当前所有模版加载器
 	 */
-	public void clearTemplateLoader(){
-		list.clear();
+	public synchronized void clearTemplateLoader(){
 		isSetLoader=false;
+		list.clear();
 	}
 	
 	/**
@@ -95,34 +114,39 @@ public class FreemarkerUtil {
 	/**
 	 * 某些初始化
 	 */
-	private void init(){
-		cfg=new Configuration();
-		cfg.setObjectWrapper(new DefaultObjectWrapper());
+	private void initDefault(){
+		cfg=new Configuration(Configuration.VERSION_2_3_23);
+		cfg.setObjectWrapper(new DefaultObjectWrapper(Configuration.VERSION_2_3_23));
+	}
+	/**
+	 * 增加一个加载器
+	 * @param templateLoader
+	 * @return
+	 */
+	public synchronized int  addTemplateLoader(TemplateLoader templateLoader){
+		isSetLoader=true;
+		list.add(templateLoader);
+		return list.size()-1;
 	}
 	/**
 	 * 加入一个文件加载器
 	 * @param folderPath
 	 * @return
+	 * @throws IOException 
 	 */
-	public int addFolderLoader(String folderPath){
+	public int addFolderLoader(String folderPath) throws IOException{
 		return addFolderLoader(new File(folderPath));
 	}
 	/**
 	 * 加入一个文件夹加载器
 	 * @param folder
 	 * @return
+	 * @throws IOException 
 	 */
-	public int addFolderLoader(File folder){
-		int index=-1;
-			try {
-				FileTemplateLoader f=new FileTemplateLoader(folder);
-				list.add(f);
-				index=list.size()-1;
-				isSetLoader=false;
-			} catch (IOException e) {
-				e.printStackTrace();
-		}
-		return index;
+	public int addFolderLoader(File folder) throws IOException{
+		FileTemplateLoader fileTemplateLoader=new FileTemplateLoader(folder);
+		return addTemplateLoader(fileTemplateLoader);
+		
 	}
 	/**
 	 * 加入一个类位置加载器
@@ -131,19 +155,11 @@ public class FreemarkerUtil {
 	 * @return
 	 */
 	public int addClassLoader(Class<?> classType,String prefix){
-		int index=-1;
-		try {
-			ClassTemplateLoader c=new ClassTemplateLoader(classType, prefix);
-			list.add(c);
-			index=list.size()-1;
-			isSetLoader=false;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return index;
+		ClassTemplateLoader classTemplateLoader=new ClassTemplateLoader(classType, prefix);
+		return addTemplateLoader(classTemplateLoader);
 	}
 	/**
-	 * 获得一个多位置加载器
+	 * 获得当前的多类型加载器
 	 * @return
 	 */
 	public MultiTemplateLoader getMultiTemplateLoader(){
@@ -158,22 +174,19 @@ public class FreemarkerUtil {
 	 * 返回某个名字的模版
 	 * @param name
 	 * @return
+	 * @throws IOException 
+	 * @throws ParseException 
+	 * @throws MalformedTemplateNameException 
+	 * @throws TemplateNotFoundException 
 	 */
-	public Template getTemplate(String name){
-		Template t=null;
-		try {
-			if(!isSetLoader){
-				cfg.setTemplateLoader(getMultiTemplateLoader());
-				isSetLoader=true;
-			}
-			if(suffix!=null&&name.indexOf(".")==-1){
-				name=name+"."+suffix;
-			}
-			t= cfg.getTemplate(name);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Template getTemplate(String name) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException{
+		if(!isSetLoader){
+			flushLoader();
 		}
-		return t;
+		if(suffix!=null){
+			name=name+suffix;
+		}
+		return cfg.getTemplate(name);
 	}
 	/**
 	 * 返回配置对象
@@ -185,7 +198,7 @@ public class FreemarkerUtil {
 	/**
 	 * 刷新模版加载器
 	 */
-	public void flushLoader(){
+	public synchronized void flushLoader(){
 		isSetLoader=true;
 		cfg.setTemplateLoader(getMultiTemplateLoader());
 	}
@@ -195,22 +208,15 @@ public class FreemarkerUtil {
 	 * @param rootMap
 	 * @param out
 	 * @return
+	 * @throws IOException 
+	 * @throws TemplateException 
 	 */
-	public boolean process(Template t,Object rootMap,Writer out){
-		boolean flag=false;
-		try {
-			t.process(rootMap, out);
-			out.flush();
-			if(isCloseStream){
-				out.close();
-			}
-			flag=true;
-		} catch (TemplateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+	public void process(Template t,Object rootMap,Writer out) throws IOException, TemplateException{
+		t.process(rootMap, out);
+		out.flush();
+		if(isCloseStream){
+			out.close();
 		}
-		return flag;
 		
 	}
 	
@@ -220,10 +226,12 @@ public class FreemarkerUtil {
 	 * @param rootMap
 	 * @param out
 	 * @return
+	 * @throws TemplateException 
+	 * @throws IOException 
 	 */
-	public boolean process(String templateName,Object rootMap,Writer out){
+	public void process(String templateName,Object rootMap,Writer out) throws IOException, TemplateException{
 		Template t=getTemplate(templateName);
-		return process(t, rootMap, out);
+		 process(t, rootMap, out);
 	}
 	/**
 	 * 模版处理数据
@@ -231,10 +239,12 @@ public class FreemarkerUtil {
 	 * @param rootMap
 	 * @param os
 	 * @return
+	 * @throws TemplateException 
+	 * @throws IOException 
 	 */
-	public boolean process(Template t,Object rootMap,OutputStream os){
+	public void process(Template t,Object rootMap,OutputStream os) throws IOException, TemplateException{
 		Writer out=new OutputStreamWriter(os);
-		return process(t,rootMap,out);
+		process(t,rootMap,out);
 		
 	}
 	/**
@@ -243,10 +253,12 @@ public class FreemarkerUtil {
 	 * @param rootMap
 	 * @param os
 	 * @return
+	 * @throws TemplateException 
+	 * @throws IOException 
 	 */
-	public boolean process(String templateName,Object rootMap,OutputStream os){
+	public void process(String templateName,Object rootMap,OutputStream os) throws IOException, TemplateException{
 		Writer out=new OutputStreamWriter(os);
-		return process(templateName, rootMap, out);
+		process(templateName, rootMap, out);
 	}
 	/**
 	 * 模版处理数据
@@ -254,9 +266,11 @@ public class FreemarkerUtil {
 	 * @param rootMap
 	 * @param filePath
 	 * @return
+	 * @throws TemplateException 
+	 * @throws IOException 
 	 */
-	public boolean process(String templateName,Object rootMap,String filePath){
-		return process(templateName, rootMap, new File(filePath));
+	public void process(String templateName,Object rootMap,String filePath) throws IOException, TemplateException{
+		process(templateName, rootMap, new File(filePath));
 	}
 	/**
 	 * 模版处理数据
@@ -264,22 +278,17 @@ public class FreemarkerUtil {
 	 * @param rootMap
 	 * @param file
 	 * @return
+	 * @throws TemplateException 
+	 * @throws IOException 
 	 */
-	public boolean process(String templateName,Object rootMap,File file){
-		boolean flag=false;
-		try {
-			File folder=file.getParentFile();
-			if(!file.exists()){
-				folder.mkdirs();
-			}
-			Writer out=new FileWriter(file);
-			flag= process(templateName, rootMap, out);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public void process(String templateName,Object rootMap,File file) throws IOException, TemplateException{
+		File folder=file.getParentFile();
+		if(!file.exists()){
+			folder.mkdirs();
 		}
-		return flag;
+		Writer out=new FileWriter(file);
+		process(templateName, rootMap, out);
 	}
-	
 	
 	
 }

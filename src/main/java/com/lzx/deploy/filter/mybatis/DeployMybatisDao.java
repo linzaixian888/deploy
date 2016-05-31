@@ -21,8 +21,7 @@ public class DeployMybatisDao implements Filter{
 	private String impl="implements";
 	private List<MyClass> myClasses;
 	private String daoPath;
-	boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署Dao接口");
 		daoPackage=(String) filterChain.get(daoPackage);
 		myClasses=filterChain.getClassList();
@@ -31,13 +30,8 @@ public class DeployMybatisDao implements Filter{
 		new File(daoPath).mkdirs();
 		String baseDaoI=format(i, baseDao);
 		filterChain.put("baseDaoI", baseDaoI);
-		success=Global.FU.process("MybatisBaseDaoInterface", filterChain.getRoot(), daoPath+baseDaoI+".java");
-		if(success){
-			logger.debug("成功部署接口:{}",baseDaoI);
-		}else{
-			logger.error("部署接口:{}失败",baseDaoI);
-			throw new RuntimeException("部署接口:"+baseDaoI+"失败");
-		}
+		Global.FU.process("MybatisBaseDaoInterface", filterChain.getRoot(), daoPath+baseDaoI+".java");
+		logger.debug("成功部署接口:{}",baseDaoI);
 		for(MyClass myClass:myClasses){
 			if(myClass.getIdField()==null){
 				logger.warn("{}类没有设置主键,跳过该类的dao部署",myClass.getClassName());
@@ -48,13 +42,8 @@ public class DeployMybatisDao implements Filter{
 			filterChain.put("daoI", daoI);
 			filterChain.put("daoImpl", daoImpl);
 			filterChain.put("myClass", myClass);
-			success=Global.FU.process("MybatisDaoInterface", filterChain.getRoot(),daoPath+daoI+".java");
-			if(success){
-				logger.debug("成功部署接口:{}",daoI);
-			}else{
-				logger.error("部署接口:{}失败",daoI);
-				throw new RuntimeException("部署接口:"+daoI+"失败");
-			}
+			Global.FU.process("MybatisDaoInterface", filterChain.getRoot(),daoPath+daoI+".java");
+			logger.debug("成功部署接口:{}",daoI);
 		}
 		logger.debug("end---成功部署所有Dao接口");
 	}

@@ -19,8 +19,7 @@ public class DeployHibernatePojo implements Filter{
 	private String pojoName="pojoName";
 	private String pojoPath;
 	private List<MyClass> myClasses;
-	private boolean success=true;
-	public void process(FilterChain filterChain) {
+	public void process(FilterChain filterChain) throws Exception {
 		logger.debug("begin---开始部署pojo类");
 		myClasses=filterChain.getClassList();
 		pojoPackage=(String) filterChain.get(pojoPackage);
@@ -31,13 +30,8 @@ public class DeployHibernatePojo implements Filter{
 			filterChain.put("myClass", myClass);
 			String pojoNameFormat= format(pojoName, myClass.getClassName());
 			myClass.setClassName(pojoNameFormat);
-			success=Global.FU.process("HibernatePojo", filterChain.getRoot(), pojoPath+myClass.getClassName()+".java");
-			if(success){
-				logger.debug("已部署POJO类:{}",myClass.getClassName());
-			}else{
-				logger.error("部署POJO类:{}失败",myClass.getClassName());
-				throw new RuntimeException("部署POJO类:"+myClass.getClassName()+"失败");
-			}
+			Global.FU.process("HibernatePojo", filterChain.getRoot(), pojoPath+myClass.getClassName()+".java");
+			logger.debug("已部署POJO类:{}",myClass.getClassName());
 		}
 		logger.debug("end---成功部署所有pojo类");
 	}
