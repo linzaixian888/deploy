@@ -50,11 +50,9 @@ public class FilterChain implements Filter{
 				chain=this.lastFilterChain;
 				if(chain!=null){
 					chain.setRoot(map);
-//					chain.setClassList(this.classList);
+					chain.setClassList(this.classList);
 					chain.process(chain);
 					addFilterCount(chain, this.filterCount);
-					
-					System.out.println(chain.filterCount);
 				}
 			}
 			
@@ -80,15 +78,39 @@ public class FilterChain implements Filter{
 		//标识要返回原来的过滤器链
 		nowFilterChain.lastFilterChain=this;
 		nowFilterChain.setRoot(this.map);
-//		chain.setClassList(this.classList);
+		nowFilterChain.setClassList(this.classList);
 		nowFilterChain.process(nowFilterChain);
 	}
 	private void processFilter(Filter nowFilter)throws Exception{
-		//计算是第几个处理器 
-		addFilterCount(this, 1);
-		logger.debug("***当前为第{}个过滤器:{},位于{}链中***",filterCount,nowFilter.getClass().getName(),this);
+		boolean isProcess=true;//是否要运行处理器的标识
 		try {
-			nowFilter.process(this);
+			if(nowFilter instanceof CheckNeedConfFilter){
+				CheckNeedConfFilter checkNeedConfFilter=(CheckNeedConfFilter) nowFilter;
+				String[] confNames=checkNeedConfFilter.getConfNames();
+				if(confNames!=null&&confNames.length>0){
+					logger.debug("开始检测有没有配置必需的配置项");
+					for(String confName:confNames){
+						Object value=get(confName);
+						if(value==null){
+							if(checkNeedConfFilter.getResult()==CheckNeedConfFilter.Result.skip){
+								isProcess=false;
+								logger.warn("由于没有配置必需的配置项,位于{}链中的过滤器{}将跳过运行,",this,nowFilter);
+							}else if(checkNeedConfFilter.getResult()==CheckNeedConfFilter.Result.stop){
+								logger.error("由于没有配置必需的配置项,位于{}链中的过滤器{}将导止运行停止,",this,nowFilter);
+								throw new RuntimeException("缺少必需的配置项:"+confName);
+							}
+							
+						}
+					}
+				}
+			}
+			if(isProcess){
+				//计算是第几个处理器且运行
+				addFilterCount(this, 1);
+				logger.debug("***当前为第{}个过滤器:{},位于{}链中***",filterCount,nowFilter.getClass().getName(),this);
+				nowFilter.process(this);
+			}
+			
 		} catch (Exception e) {
 			Logger filterLog=LoggerFactory.getLogger(nowFilter.getClass());
 			StringPrintWriter spw=new StringPrintWriter();

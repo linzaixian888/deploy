@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root framework="spring,mybatis,springmvc">
+<root framework="hibernate,struts2">
 	<pojo>
 		<pojoPackage>com.linzaixian.bean</pojoPackage>
 	</pojo>
@@ -15,7 +15,7 @@
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
 		<path>e:/linzaixian</path>
-		<dataPool>dbcp</dataPool>
+		<dataPool>druid</dataPool>
 		<type>bs</type>
 	</config>
 	<controller>
@@ -47,16 +47,5 @@
 			<show_sql>true</show_sql>
 			<hbm2ddl>none</hbm2ddl>
 		</mysql>
-		<postgresql>
-			<driver>org.postgresql.Driver</driver>
-			<url>jdbc:postgresql://172.16.2.103:5432/jfinalbbs?charSet=utf-8</url>
-			<username>postgres</username>
-			<!-- <password>12345)(*&amp;^%RFVwsx</password> -->
-			<password>12345)(*&amp;^%RFVwsx</password>
-			<format_sql>false</format_sql>
-			<dialect>org.hibernate.dialect.PostgreSQLDialect</dialect>
-			<show_sql>true</show_sql>
-			<hbm2ddl>none</hbm2ddl>
-		</postgresql>
 	</sql>
 </root>

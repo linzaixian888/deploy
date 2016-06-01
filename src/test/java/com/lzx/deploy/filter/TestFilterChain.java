@@ -35,7 +35,6 @@ public class TestFilterChain {
 	}
 	@Test
 	public void testGetSuccessFilterCount() throws Exception{
-		FilterChain chain=new FilterChain();
 		int size=10;
 		for (int i = 0; i < size; i++) {
 			chain.addFilter(new AFilter());
@@ -52,7 +51,6 @@ public class TestFilterChain {
 
 	@Test
 	public void testProcess() throws Exception{
-		FilterChain chain=new FilterChain();
 		int size=10;
 		for (int i = 0; i < size; i++) {
 			chain.addFilter(new AFilter());
@@ -62,7 +60,6 @@ public class TestFilterChain {
 	}
 	@Test
 	public void testProcess2() throws Exception{
-		FilterChain chain=new FilterChain();
 		int size=10;
 		for (int i = 0; i < size; i++) {
 			chain.addFilter(new AFilter());
@@ -79,7 +76,6 @@ public class TestFilterChain {
 	}
 	@Test
 	public void testProcess3() throws Exception{
-		FilterChain chain=new FilterChain();
 		int size=5;
 		for (int i = 0; i < size; i++) {
 			chain.addFilter(new AFilter());
@@ -94,9 +90,30 @@ public class TestFilterChain {
 			chain.addFilter(new AFilter());
 		}
 		chain.process();
-		Assert.assertEquals(size*3, chain.getFilterCount());
+		Assert.assertEquals(size*3, chain.getSuccessFilterCount());
 	}
-	
+	@Test(expected=RuntimeException.class)
+	public void testProcess4() throws Exception{
+		FilterChain chain=new FilterChain();
+		chain.addFilter(new CFilter());
+		chain.process();
+	}
+	@Test
+	public void testProcess5() throws Exception{
+		FilterChain chain=new FilterChain();
+		int size=5;
+		for (int i = 0; i < size; i++) {
+			chain.addFilter(new DFilter());
+		}
+		
+		FilterChain chain2=new FilterChain();
+		for (int i = 0; i < size; i++) {
+			chain2.addFilter(new AFilter());
+		}
+		chain.addFilter(chain2);
+		chain.process();
+		Assert.assertEquals(size, chain.getSuccessFilterCount());
+	}
 	
 	
 	
@@ -115,6 +132,43 @@ public class TestFilterChain {
 			throw new Exception("报错了");
 			
 		}
-
 	}
+	public class CFilter extends CheckNeedConfFilter{
+		@Override
+		public String[] getConfNames() {
+			// TODO Auto-generated method stub
+			return new String[]{"不可能存在的配置项"};
+		}
+
+		@Override
+		public void process(FilterChain filterChain) throws Exception {
+			System.out.println("C");
+			
+		}
+
+		@Override
+		public Result getResult() {
+			return Result.stop;
+		}
+	}
+	public class DFilter extends CheckNeedConfFilter{
+		@Override
+		public String[] getConfNames() {
+			// TODO Auto-generated method stub
+			return new String[]{"不可能存在的配置项"};
+		}
+
+		@Override
+		public void process(FilterChain filterChain) throws Exception {
+			System.out.println("D");
+			
+		}
+
+		@Override
+		public Result getResult() {
+			return Result.skip;
+		}
+	}
+	
+	
 }
