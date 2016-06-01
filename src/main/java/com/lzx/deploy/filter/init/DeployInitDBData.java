@@ -7,8 +7,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lzx.deploy.filter.CheckConfFilter;
 import com.lzx.deploy.filter.Filter;
 import com.lzx.deploy.filter.FilterChain;
+import com.lzx.deploy.filter.NotNullConfFilter;
 import com.lzx.deploy.pojo.ChildTable;
 import com.lzx.deploy.pojo.Column;
 import com.lzx.deploy.pojo.MyClass;
@@ -22,7 +24,7 @@ import com.lzx.deploy.util.StringUtil;
  * @author lzx
  *
  */
-public class DeployInitDBData implements Filter{
+public class DeployInitDBData extends NotNullConfFilter{
 	private static Logger logger=LoggerFactory.getLogger(DeployInitDBData.class);
 	private List<Table> tables;
 	private DBHelper db;
@@ -31,19 +33,6 @@ public class DeployInitDBData implements Filter{
 		String url=(String) filterChain.get("url");
 		String username=(String) filterChain.get("username");
 		String password=(String) filterChain.get("password");
-		if(driver==null){
-			logger.error("获取配置失败,请配置driver");
-			throw new RuntimeException("获取配置失败,请配置driver");
-		}else if(url==null){
-			logger.error("获取配置失败,请配置url");
-			throw new RuntimeException("获取配置失败,请配置url");
-		}else if(username==null){
-			logger.error("获取配置失败,请配置username");
-			throw new RuntimeException("获取配置失败,请配置username");
-		}else if(password==null){
-			logger.error("获取配置失败,请配置password");
-			throw new RuntimeException("获取配置失败,请配置password");
-		}
 		db=new DBHelper(driver, url, username, password);
 		tables=db.getAllTable();
 		logger.debug("begin---开始对数据库数据进行初始化");
@@ -248,6 +237,11 @@ public class DeployInitDBData implements Filter{
 		DeployInitDBData d=new DeployInitDBData();
 		d.process(new FilterChain());
 		
+	}
+	@Override
+	public String[] getConfNames() {
+		// TODO Auto-generated method stub
+		return new String[]{"url","driver","username","password"};
 	}
 	
 

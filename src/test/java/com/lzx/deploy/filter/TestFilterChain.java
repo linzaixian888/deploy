@@ -130,14 +130,17 @@ public class TestFilterChain {
 		public void process(FilterChain filterChain)throws Exception {
 			// TODO Auto-generated method stub
 			throw new Exception("报错了");
-			
 		}
 	}
-	public class CFilter extends CheckNeedConfFilter{
+	public class CFilter extends CheckConfFilter{
 		@Override
 		public String[] getConfNames() {
 			// TODO Auto-generated method stub
 			return new String[]{"不可能存在的配置项"};
+		}
+		@Override
+		public Result validate(String confName, Object value) throws Exception {
+			return Result.stop;
 		}
 
 		@Override
@@ -146,12 +149,8 @@ public class TestFilterChain {
 			
 		}
 
-		@Override
-		public Result getResult() {
-			return Result.stop;
-		}
 	}
-	public class DFilter extends CheckNeedConfFilter{
+	public class DFilter extends NotNullConfFilter{
 		@Override
 		public String[] getConfNames() {
 			// TODO Auto-generated method stub
@@ -163,11 +162,13 @@ public class TestFilterChain {
 			System.out.println("D");
 			
 		}
-
 		@Override
-		public Result getResult() {
+		public Result validate(String confName, Object value) throws Exception {
+			// TODO Auto-generated method stub
 			return Result.skip;
 		}
+		
+
 	}
 	
 	

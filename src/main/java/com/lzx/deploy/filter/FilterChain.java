@@ -9,6 +9,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lzx.deploy.filter.CheckConfFilter.Result;
 import com.lzx.deploy.pojo.MyClass;
 import com.lzx.deploy.util.StringPrintWriter;
 
@@ -84,25 +85,17 @@ public class FilterChain implements Filter{
 	private void processFilter(Filter nowFilter)throws Exception{
 		boolean isProcess=true;//是否要运行处理器的标识
 		try {
-			if(nowFilter instanceof CheckNeedConfFilter){
-				CheckNeedConfFilter checkNeedConfFilter=(CheckNeedConfFilter) nowFilter;
-				String[] confNames=checkNeedConfFilter.getConfNames();
-				if(confNames!=null&&confNames.length>0){
-					logger.debug("开始检测有没有配置必需的配置项");
-					for(String confName:confNames){
-						Object value=get(confName);
-						if(value==null){
-							if(checkNeedConfFilter.getResult()==CheckNeedConfFilter.Result.skip){
-								isProcess=false;
-								logger.warn("由于没有配置必需的配置项,位于{}链中的过滤器{}将跳过运行,",this,nowFilter);
-							}else if(checkNeedConfFilter.getResult()==CheckNeedConfFilter.Result.stop){
-								logger.error("由于没有配置必需的配置项,位于{}链中的过滤器{}将导止运行停止,",this,nowFilter);
-								throw new RuntimeException("缺少必需的配置项:"+confName);
-							}
-							
-						}
-					}
+			if(nowFilter instanceof CheckConfFilter){
+				CheckConfFilter checkConfFilter=(CheckConfFilter) nowFilter;
+			  CheckConfFilter.Result result=checkConfFilter.validate(this);
+			  if(result==CheckConfFilter.Result.skip){
+					isProcess=false;
+					logger.warn("配置项检测不合格,位于{}链中的过滤器{}将跳过运行,",this,nowFilter);
+				}else if(result==CheckConfFilter.Result.stop){
+					logger.error("配置项检测不合格,位于{}链中的过滤器{}将导止运行停止,",this,nowFilter);
+					throw new RuntimeException("配置项检测不合格,停止运行");
 				}
+				
 			}
 			if(isProcess){
 				//计算是第几个处理器且运行
