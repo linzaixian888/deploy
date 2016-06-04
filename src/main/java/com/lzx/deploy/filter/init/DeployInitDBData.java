@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.lzx.deploy.filter.CheckConfFilter;
 import com.lzx.deploy.filter.Filter;
 import com.lzx.deploy.filter.FilterChain;
-import com.lzx.deploy.filter.NotNullConfFilter;
+import com.lzx.deploy.filter.NotNullConfStopFilter;
 import com.lzx.deploy.pojo.ChildTable;
 import com.lzx.deploy.pojo.Column;
 import com.lzx.deploy.pojo.MyClass;
@@ -24,7 +24,7 @@ import com.lzx.deploy.util.StringUtil;
  * @author lzx
  *
  */
-public class DeployInitDBData extends NotNullConfFilter{
+public class DeployInitDBData extends NotNullConfStopFilter{
 	private static Logger logger=LoggerFactory.getLogger(DeployInitDBData.class);
 	private List<Table> tables;
 	private DBHelper db;

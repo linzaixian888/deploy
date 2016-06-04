@@ -1,6 +1,6 @@
 package com.lzx.deploy.filter;
 
-public abstract class NotNullConfFilter extends CheckConfFilter{
+public abstract class NotNullConfStopFilter extends CheckConfFilter{
 	@Override
 	public Result validate(String confName, Object value) throws Exception {
 		if(value==null){

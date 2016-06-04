@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lzx.deploy.filter.CheckConfFilter.Result;
 import com.lzx.deploy.pojo.MyClass;
 import com.lzx.deploy.util.StringPrintWriter;
 
@@ -127,6 +125,11 @@ public class FilterChain implements Filter{
 	public Object get(String key){
 		return map.get(key);
 	}
+	public Object get(String key,Object defaultObject){
+		Object value=map.get(key);
+		return value==null?defaultObject:value;
+	}
+	
 	public Map getRoot(){
 		return this.map;
 	}

@@ -150,7 +150,7 @@ public class TestFilterChain {
 		}
 
 	}
-	public class DFilter extends NotNullConfFilter{
+	public class DFilter extends NotNullConfStopFilter{
 		@Override
 		public String[] getConfNames() {
 			// TODO Auto-generated method stub

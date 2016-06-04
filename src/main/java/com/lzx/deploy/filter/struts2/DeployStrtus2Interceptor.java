@@ -19,7 +19,7 @@ public class DeployStrtus2Interceptor implements Filter{
 		interceptorPackage=(String) filterChain.get(interceptorPackage);
 		interceptorPath=StringUtil.sourcePackageToPath(interceptorPackage);
 		Global.FU.process("Struts2Interceptor", filterChain.getRoot(), interceptorPath+interceptorClassName+".java");
-		logger.debug("end---失功部署Interceptor拦载器");
+		logger.debug("end---成功部署Interceptor拦载器");
 		
 	}
 }
