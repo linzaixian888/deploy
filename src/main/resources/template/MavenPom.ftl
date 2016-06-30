@@ -21,6 +21,7 @@
 		<druid.version>1.0.20</druid.version>
 		<dbcp.version>1.4</dbcp.version>
 		<jackson.version>2.7.4</jackson.version>
+		<h2.version>1.4.192</h2.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -146,6 +147,11 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>${r"${druid.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${r"${h2.version}"}</version>
 		</dependency>
 	</dependencies>
 	<build>

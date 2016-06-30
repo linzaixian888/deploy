@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root framework="hibernate,struts2">
 	<pojo>
-		<pojoPackage>com.linzaixian.bean</pojoPackage>
+		<pojoPackage>com.linzaixian.hero.bean</pojoPackage>
 	</pojo>
 	<dao>
-		<daoPackage>com.linzaixian.dao</daoPackage>
+		<daoPackage>com.linzaixian.hero.dao</daoPackage>
 	</dao>
 	<service>
-		<servicePackage>com.linzaixian.service</servicePackage>
+		<servicePackage>com.linzaixian.hero.service</servicePackage>
 	</service>
 	<config>
 		<mybatisPath>classpath:mybatis.xml</mybatisPath>
 		<springPath>classpath:spring.xml</springPath>
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
-		<path>e:/linzaixian</path>
+		<path>e:/DTCQHero</path>
 		<dataPool>druid</dataPool>
 		<type>bs</type>
 	</config>
 	<controller>
-		<controllerPackage>com.linzaixian.action</controllerPackage>
+		<controllerPackage>com.linzaixian.hero.action</controllerPackage>
 		<controllerSuffix>do</controllerSuffix>
 	</controller>
 	<interceptor>
 		<interceptorClassName>MyInterceptor</interceptorClassName>
-		<interceptorPackage>com.linzaixian.interceptor</interceptorPackage>
+		<interceptorPackage>com.linzaixian.hero.interceptor</interceptorPackage>
 	</interceptor>
 	<web>
 		<js>
@@ -36,7 +36,7 @@
 			<errorView>error</errorView>
 		</view>
 	</web>
-	<sql sqlType="mysql">
+	<sql sqlType="h2">
 		<mysql>
 			<driver>com.mysql.jdbc.Driver</driver>
 			<url>jdbc:mysql://localhost:3306/test</url>
@@ -47,5 +47,15 @@
 			<show_sql>true</show_sql>
 			<hbm2ddl>none</hbm2ddl>
 		</mysql>
+		<h2>
+			<driver>org.h2.Driver</driver>
+			<url>jdbc:h2:~/test3</url>
+			<username>sa</username>
+			<password></password>
+			<format_sql>false</format_sql>
+			<dialect>org.hibernate.dialect.H2Dialect</dialect>
+			<show_sql>true</show_sql>
+			<hbm2ddl>none</hbm2ddl>
+		</h2>
 	</sql>
 </root>

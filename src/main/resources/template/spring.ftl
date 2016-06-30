@@ -35,9 +35,9 @@
 	<#elseif dataPool == "druid">
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 	      <!-- 基本属性 url、user、password -->
-	      <property name="url" value="jdbc:mysql://localhost:3306/test" />
-	      <property name="username" value="root" />
-	      <property name="password" value="123456" />
+	      <property name="url" value="${url}" />
+	      <property name="username" value="${username}" />
+	      <property name="password" value="${password!}" />
 	      <!-- 配置初始化大小、最小、最大 -->
 	      <property name="initialSize" value="5" />
 	      <property name="minIdle" value="5" /> 

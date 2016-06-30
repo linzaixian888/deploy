@@ -241,7 +241,7 @@ public class DeployInitDBData extends NotNullConfStopFilter{
 	@Override
 	public String[] getConfNames() {
 		// TODO Auto-generated method stub
-		return new String[]{"url","driver","username","password"};
+		return new String[]{"url","driver","username"};
 	}
 	
 

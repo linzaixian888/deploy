@@ -22,7 +22,7 @@
 		</init-param>  
 		<init-param>  
 		    <param-name>loginPassword</param-name>   <!-- 密码 -->  
-		    <param-value>${password}</param-value>  
+		    <param-value>${password!}</param-value>  
 		 </init-param>  
 	</servlet>
 	<servlet-mapping>
@@ -69,7 +69,6 @@
  </filter-mapping>  
 	</#if>
 	
-	<#if spring??>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>${springPath}</param-value>
@@ -79,7 +78,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	</#if>
 	
 	<#if springmvc??>
 	<servlet>
@@ -102,7 +100,7 @@
 	<filter>
 		<filter-name>openSessionInViewFilter</filter-name>
 		<filter-class>
-			org.springframework.orm.hibernate4.support.OpenSessionInViewFilter
+			org.springframework.orm.hibernate5.support.OpenSessionInViewFilter
 		</filter-class>
 		<init-param>
 			<param-name>sessionFactoryBeanName</param-name>

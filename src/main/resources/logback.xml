@@ -4,6 +4,7 @@
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{100}       %replace(%caller{1}){'Caller\+0',''}- %msg%n
 			</pattern>
+			<!-- <charset>UTF-8</charset> -->
 		</encoder>
 	</appender>
 	<appender name="FILE"
