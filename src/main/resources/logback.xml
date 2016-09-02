@@ -12,20 +12,47 @@
 	<!-- 	<file>logFile.log</file> -->
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>%d{yyyy/MM}/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>${hero.root:- }/logs/%d{yyyy/MM/dd}.log</fileNamePattern>
 			<!-- keep 30 days worth of history -->
 			<maxHistory>0</maxHistory>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
-	 <logger name="com" level="debug"  additivity="false">
-		<appender-ref ref="STDOUT" />
-	</logger>  
+	<appender name="SQLFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${hero.root:- }/logs/%d{yyyy/MM/dd}_sql.log</fileNamePattern>
+			<!-- keep 30 days worth of history -->
+			<maxHistory>0</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	 <logger name="com.lzx.hero" level="debug"  additivity="false">
+	 	<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<!-- show parameters for hibernate sql 专为 Hibernate 定制 -->  
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder"  level="TRACE" additivity="false" />  
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor"  level="DEBUG" additivity="false" />  
+    <logger name="org.hibernate.SQL" level="DEBUG" additivity="true" />
+    <logger name="org.hibernate.type" level="TRACE" additivity="false" />
+    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG" additivity="false" />  
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" additivity="false" />  
+	<logger name="org.hibernate" additivity="false">
+		<appender-ref ref="SQLFILE" />
+	</logger>
+	
+	  
 	<root level="error">
-		<appender-ref ref="STDOUT" />
-		<!-- <appender-ref ref="FILE" /> -->
+	   <appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</root>
 </configuration>
