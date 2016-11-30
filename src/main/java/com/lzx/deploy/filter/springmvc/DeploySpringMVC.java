@@ -20,7 +20,7 @@ public class DeploySpringMVC implements Filter{
 			logger.error("[{}]该路径格式不正确，无法解析",springMVCPath);
 			throw new RuntimeException("["+springMVCPath+"]该路径格式不正确，无法解析");
 		}
-		Global.FU.process("springMVC", filterChain.getRoot(), tempPath);
+		Global.FU.process("SpringMVC", filterChain.getRoot(), tempPath);
 		logger.debug("end---成功部署springMVC文档");
 	}
 }

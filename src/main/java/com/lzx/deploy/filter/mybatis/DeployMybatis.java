@@ -21,7 +21,7 @@ public class DeployMybatis implements Filter{
 			throw new RuntimeException("["+mybatisPath+"]该路径格式不正确，无法解析");
 		}
 		filterChain.put("myClasses", filterChain.getClassList());
-		Global.FU.process("mybatis", filterChain.getRoot(), tempPath);
+		Global.FU.process("Mybatis", filterChain.getRoot(), tempPath);
 		logger.debug("end---成功部署mybatis主配置文档");
 		
 	}

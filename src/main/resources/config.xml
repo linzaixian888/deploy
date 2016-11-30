@@ -14,7 +14,7 @@
 		<springPath>classpath:spring.xml</springPath>
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
-		<path>e:/DTCQHero</path>
+		<path>d:/test</path>
 		<dataPool>druid</dataPool>
 		<type>bs</type>
 	</config>
@@ -49,7 +49,7 @@
 		</mysql>
 		<h2>
 			<driver>org.h2.Driver</driver>
-			<url>jdbc:h2:~/test3</url>
+			<url>jdbc:h2:~/test</url>
 			<username>sa</username>
 			<password></password>
 			<format_sql>false</format_sql>

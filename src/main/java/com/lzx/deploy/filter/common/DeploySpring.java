@@ -19,7 +19,7 @@ public class DeploySpring implements Filter{
 			logger.error("[{}]该路径格式不正确，无法解析",springPath);
 			throw new RuntimeException("["+springPath+"]该路径格式不正确，无法解析");
 		}
-		Global.FU.process("spring", filterChain.getRoot(), tempPath);
+		Global.FU.process("Spring", filterChain.getRoot(), tempPath);
 		logger.debug("end---成功部署spring主配置文档");
 		
 	}

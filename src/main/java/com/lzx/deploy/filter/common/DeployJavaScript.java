@@ -47,7 +47,7 @@ public class DeployJavaScript implements Filter{
 				}else{
 					String tempPath=FileUtil.getProjectName()+StringUtil.getPath(jsPath)+temp.getName();
 					chain.put("jsScript", tempPath);
-					Global.FU.process("js", chain.getRoot(), temp);
+					Global.FU.process("Js", chain.getRoot(), temp);
 					logger.debug("成功部署{}.js",jsName);
 				}
 			}

@@ -13,7 +13,7 @@ public class DeployFreemarkerConfig implements Filter{
 	private String defaultPath="classpath:freemarker.properties";
 	public void process(FilterChain chain) throws Exception {
 		logger.debug("开始部署freemarker配置文件");
-		Global.FU.process("freemarker", chain.getRoot(), StringUtil.resourcesParse(defaultPath,chain.get("path")));
+		Global.FU.process("Freemarker", chain.getRoot(), StringUtil.resourcesParse(defaultPath,chain.get("path")));
 		logger.debug("成功部署freemarker配置文件");
 		
 		

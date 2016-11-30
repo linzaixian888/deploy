@@ -22,7 +22,7 @@ public class DeploySpringScan implements Filter{
 			logger.error("[{}]该路径格式不正确，无法解析",springScanPath);
 			throw new RuntimeException("["+springScanPath+"]该路径格式不正确，无法解析");
 		}
-		Global.FU.process("springScan", filterChain.getRoot(), tempPath);
+		Global.FU.process("SpringScan", filterChain.getRoot(), tempPath);
 		logger.debug("end---成功部署spring控制器扫描文档");
 //		if(springScanPath.startsWith("/")){
 //			springScanPath=new File(springScanPath).getName();
