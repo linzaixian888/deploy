@@ -26,6 +26,13 @@ public class DeployJpaService implements Filter{
 		servicePackage=(String) filterChain.get(servicePackage);
 		i=(String) filterChain.get(i);
 		impl=(String) filterChain.get(impl);
+		if(impl.startsWith(i)&&!impl.equals(i)){
+			filterChain.put("repositoryImplPpostfix", impl.replace(i, i));
+		}else{
+			logger.error("实现{}与接口{}的命令方式不适用于JPA方式",i,impl);
+			throw new RuntimeException("实现"+i+"与接口"+impl+"的命令方式不适用于JPA方式");
+		}
+		
 		myClasses=filterChain.getClassList();
 		servicePath=StringUtil.sourcePackageToPath(servicePackage);
 		String baseDaoI=format(i, baseDao);

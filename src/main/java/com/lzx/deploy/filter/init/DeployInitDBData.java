@@ -40,9 +40,9 @@ public class DeployInitDBData extends NotNullConfStopFilter{
 			MyClass myClass=new MyClass();
 			String idName=table.getIdColumn().getColumnName();
 			if("".equals(idName)||idName==null){
-				logger.warn("{}表没有设置主键",table.getTableName());
+				logger.warn("{}表没有设置主键,跳过对该表的处理",table.getTableName());
 				myClass.setIdField(null);
-//				throw new RuntimeException(table.getTableName()+"表没有设置主键，请设置主键");
+				continue;
 			}else{
 				//对id属性的赋值
 				myClass.setIdField(new MyField());

@@ -16,7 +16,7 @@
 		<springScanPath>classpath:springScan.xml</springScanPath>
 		 <path>d:/test</path> 
 		<dataPool>druid</dataPool>
-		<type>bs</type>
+		<type>cs</type>
 	</config>
 	<controller>
 		<controllerPackage>abc.linzaixian.hero.action</controllerPackage>

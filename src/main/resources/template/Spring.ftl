@@ -144,7 +144,7 @@
     </bean>
     
      <!-- Spring Data Jpa配置 -->
-    <jpa:repositories  base-package="${daoPackage}" repository-impl-postfix="Impl" 
+    <jpa:repositories  base-package="${daoPackage}" repository-impl-postfix="${repositoryImplPpostfix}" 
                       entity-manager-factory-ref="entityManagerFactory"  transaction-manager-ref="transactionManager"/>
 	
 	
