@@ -27,6 +27,8 @@ public class DeployJpaPojo implements Filter{
 		pojoName=(String) filterChain.get(pojoName);
 		pojoPath=StringUtil.sourcePackageToPath(pojoPackage);
 		new File(pojoPath).mkdirs();
+		Global.FU.process("BasePojo", filterChain.getRoot(), pojoPath+"base/BasePojo.java");
+		logger.debug("成功部署{}类","BasePojo");
 		for(MyClass myClass:myClasses){
 			filterChain.put("myClass", myClass);
 			logger.debug("开始进行类名的格式化");

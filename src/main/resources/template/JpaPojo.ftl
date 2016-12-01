@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import javax.persistence.GenerationType;
+import ${pojoPackage}.base.BasePojo;
 /**
  * ${myClass.remark}
  * @author lzx
@@ -22,7 +23,7 @@ import javax.persistence.GenerationType;
  */
 @Entity
 @Table(name="${myClass.tableName}")
-public class ${myClass.className}{
+public class ${myClass.className} extends BasePojo{
 	<#if myClass.idField??>
 	/**
 	 * ${myClass.idField.remark}
