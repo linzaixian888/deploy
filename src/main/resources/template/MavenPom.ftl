@@ -10,23 +10,34 @@
 	</#if>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<mybatis.version>3.2.3</mybatis.version>
+		<mybatis.version>3.4.1</mybatis.version>
+		<mybatis-spring.verion>1.3.0</mybatis-spring.verion>
 		<struts.version>2.3.16.3</struts.version>
-		<spring.version>4.2.6.RELEASE</spring.version>
+		<spring.version>4.2.8.RELEASE</spring.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
 		<junit.version>4.12</junit.version>
-		<hibernate.version>5.1.0.Final</hibernate.version>
+		<hibernate.version>5.2.5.Final</hibernate.version>
 		<freemarker.version>2.3.23</freemarker.version>
 		<druid.version>1.0.20</druid.version>
 		<dbcp.version>1.4</dbcp.version>
 		<jackson.version>2.7.4</jackson.version>
 		<h2.version>1.4.192</h2.version>
+		<postgresql.version>9.2-1003-jdbc4</postgresql.version>
+		<mysql.version>5.1.25</mysql.version>
+		<spring-jpa.version>1.10.3.RELEASE</spring-jpa.version>
+		<aspectj.version>1.8.9</aspectj.version>
+		<slf4j.version>1.7.21</slf4j.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
+			<version>${r"${hibernate.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${r"${hibernate.version}"}</version>
 		</dependency>
 		<dependency>
@@ -37,11 +48,41 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
-			<version>1.2.1</version>
+			<version>${r"${mybatis-spring.verion}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${r"${spring-jpa.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${r"${spring.version}"}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<version>${r"${spring.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${r"${spring.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${r"${spring.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${r"${spring.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
 			<version>${r"${spring.version}"}</version>
 		</dependency>
 		<dependency>
@@ -65,12 +106,6 @@
 			<version>${r"${dbcp.version}"}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.2-1003-jdbc4</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3</version>
@@ -83,7 +118,12 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.7.3</version>
+			<version>${r"${aspectj.version}"}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${r"${aspectj.version}"}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -93,7 +133,19 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.25</version>
+			<version>${r"${mysql.version}"}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${r"${postgresql.version}"}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${r"${h2.version}"}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -120,7 +172,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
+			<version>${r"${slf4j.version}"}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -147,11 +199,6 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>${r"${druid.version}"}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${r"${h2.version}"}</version>
 		</dependency>
 	</dependencies>
 	<build>

@@ -14,6 +14,9 @@ import com.lzx.deploy.filter.common.DeployWeb;
 import com.lzx.deploy.filter.hibernate.DeployHibernateDao;
 import com.lzx.deploy.filter.hibernate.DeployHibernatePojo;
 import com.lzx.deploy.filter.hibernate.DeployHibernateService;
+import com.lzx.deploy.filter.jpa.DeployJpaDao;
+import com.lzx.deploy.filter.jpa.DeployJpaPojo;
+import com.lzx.deploy.filter.jpa.DeployJpaService;
 import com.lzx.deploy.filter.mybatis.DeployMybatis;
 import com.lzx.deploy.filter.mybatis.DeployMybatisDao;
 import com.lzx.deploy.filter.mybatis.DeployMybatisMapperXML;
@@ -49,6 +52,9 @@ public class DeployChooseFilter implements Filter{
 		}else if(isExist(frameworks, "hibernate")){
 			logger.debug("存在{}框架","hibernate");
 			addHibernateFilter(filterChain);
+		}else if(isExist(frameworks, "jpa")){
+			logger.debug("存在{}框架","jpa");
+			addJpaFilter(filterChain);
 		}
 		if("bs".equals(type)){
 			if(isExist(frameworks, "springmvc")){
@@ -82,6 +88,14 @@ public class DeployChooseFilter implements Filter{
 		chain.addFilter(new DeployHibernateJunit());
 		chain.addFilter(new DeployMavenPom());
 	}
+	
+	private void addJpaFilter(FilterChain chain){
+		chain.addFilter(new DeployJpaPojo());
+		chain.addFilter(new DeployJpaDao());
+		chain.addFilter(new DeployJpaService());
+		chain.addFilter(new DeploySpring());
+		chain.addFilter(new DeployMavenPom());
+	}
 	private void addSpringMVC(FilterChain chain){
 		chain.addFilter(new DeployFreemarkerConfig());
 		chain.addFilter(new DeploySpringScan());
@@ -104,7 +118,7 @@ public class DeployChooseFilter implements Filter{
 	
 	private boolean isExist(String[] array,String str){
 		for(String a:array){
-			if(a.equals(str)){
+			if(a.equalsIgnoreCase(str)){
 				return true; 
 			}
 		}

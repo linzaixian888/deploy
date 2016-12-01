@@ -56,7 +56,17 @@ public class DeployReadMyXmlConfig implements Filter {
 		if(frameworkStr!=null){
 			String[] frameworks=frameworkStr.split(",");
 			for(String framework:frameworks){
-				chain.put(framework, true);
+				String str=framework.toLowerCase();
+				if(str.startsWith("hibernate")){
+					chain.put("hibernate",true);
+					if(str.equals("hibernate")){
+						//hibernate默认为hibernate5
+						str="hibernate5";
+					}
+				}
+				chain.put(str, true);
+				
+				
 			}
 			chain.put("frameworks", frameworks);
 		}

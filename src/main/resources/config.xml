@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root framework="hibernate,struts2">
+<root framework="jpa,springmvc">
 	<pojo>
-		<pojoPackage>com.linzaixian.hero.bean</pojoPackage>
+		<pojoPackage>abc.linzaixian.hero.bean</pojoPackage>
 	</pojo>
 	<dao>
-		<daoPackage>com.linzaixian.hero.dao</daoPackage>
+		<daoPackage>abc.linzaixian.hero.dao</daoPackage>
 	</dao>
 	<service>
-		<servicePackage>com.linzaixian.hero.service</servicePackage>
+		<servicePackage>abc.linzaixian.hero.service</servicePackage>
 	</service>
 	<config>
 		<mybatisPath>classpath:mybatis.xml</mybatisPath>
 		<springPath>classpath:spring.xml</springPath>
 		<springMVCPath>classpath:springMVC.xml</springMVCPath>
 		<springScanPath>classpath:springScan.xml</springScanPath>
-		<path>d:/test</path>
+		 <path>d:/test</path> 
 		<dataPool>druid</dataPool>
 		<type>bs</type>
 	</config>
 	<controller>
-		<controllerPackage>com.linzaixian.hero.action</controllerPackage>
+		<controllerPackage>abc.linzaixian.hero.action</controllerPackage>
 		<controllerSuffix>do</controllerSuffix>
 	</controller>
 	<interceptor>
 		<interceptorClassName>MyInterceptor</interceptorClassName>
-		<interceptorPackage>com.linzaixian.hero.interceptor</interceptorPackage>
+		<interceptorPackage>abc.linzaixian.hero.interceptor</interceptorPackage>
 	</interceptor>
 	<web>
 		<js>

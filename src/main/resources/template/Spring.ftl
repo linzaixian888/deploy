@@ -5,11 +5,13 @@
 	xmlns:context="http://www.springframework.org/schema/context" 
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
-						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd ">
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd	
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd ">
 	
 	<#if hibernate??>
 	<context:component-scan base-package="${daoPackage}" />
@@ -60,9 +62,9 @@
 	      <property name="filters" value="wall,stat" /> <!--wall在前面,拦截时间不算在统计里面-->
  	</bean>
  	</#if>
-	<#if hibernate??>
+	<#if hibernate4??>
 		${r"<!-- hibernate4专用 -->"}
-		<!--	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+			<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 				<property name="dataSource" ref="dataSource"></property>
 				<property name="packagesToScan">
 					<list>
@@ -82,7 +84,9 @@
 			<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 				<property name="sessionFactory" ref="sessionFactory"></property>
 			</bean>
-			-->
+			
+	</#if>
+	<#if hibernate5??>
 			${r"<!-- hibernate5专用 -->"}
 			<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 				<property name="dataSource" ref="dataSource"></property>
@@ -119,7 +123,32 @@
 			<property name="dataSource" ref="dataSource" />
 		</bean>
 	</#if>
+	<#if jpa??>
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="jpaVendorAdapter">
+        	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        		<property name="showSql" value="true"></property>
+        		<property name="generateDdl" value="false"></property>
+        	</bean>
+        </property>
+        <property name="packagesToScan">
+        	<list>
+        		<value>${pojoPackage}</value>
+        	</list>
+        </property>
+    </bean>
+	 <!-- Jpa 事务配置 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+    
+     <!-- Spring Data Jpa配置 -->
+    <jpa:repositories  base-package="${daoPackage}" repository-impl-postfix="Impl" 
+                      entity-manager-factory-ref="entityManagerFactory"  transaction-manager-ref="transactionManager"/>
 	
+	
+	</#if>
 	
 	<!-- <tx:annotation-driven transaction-manager="transactionManager"/>  -->
 	<!-- 配置事务传播特性 -->
