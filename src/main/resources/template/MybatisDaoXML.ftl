@@ -84,7 +84,7 @@
 
 
 <#macro insert sqlType="">
-	<#if sqlType=="mysql">
+	<#if sqlType=="mysql" ||sqlType=="h2" >
 		<insert id="save" parameterType="${myClass.className}" useGeneratedKeys="true" keyProperty="${myClass.idField.name}">
 	   		INSERT INTO ${myClass.tableName}${insertSql}
 	 	 </insert>

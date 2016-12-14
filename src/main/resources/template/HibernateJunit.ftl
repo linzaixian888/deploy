@@ -27,16 +27,16 @@ public class Test${serviceI} {
 	public void testSave(){
 		${myClass.className} ${myClass.className?uncap_first} =new ${myClass.className}();
 		${serviceI?uncap_first}.save(${myClass.className?uncap_first});
-		long expected=${serviceI?uncap_first}.countAll();
-		Assert.assertEquals(expected, 1);
+		long actual=${serviceI?uncap_first}.countAll();
+		Assert.assertEquals(1, actual);
 	}
 	
 	@Test
     public void testSaveOrUpdate(){
     	${myClass.className} ${myClass.className?uncap_first} =new ${myClass.className}();
 		${serviceI?uncap_first}.saveOrUpdate(${myClass.className?uncap_first});
-		long expected=${serviceI?uncap_first}.countAll();
-		Assert.assertEquals(expected, 1);
+		long actual=${serviceI?uncap_first}.countAll();
+		Assert.assertEquals(1, actual);
     }
     
     @Test

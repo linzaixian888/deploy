@@ -6,7 +6,8 @@ import java.util.Map;
 
 
 public interface ${baseServiceI}<T, PK extends Serializable> {
-
-	
+	void testTransactional(T t, boolean isThrowRuntimException);
+	void deleteAllInBatch();
+	long count();
 
 }

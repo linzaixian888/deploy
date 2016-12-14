@@ -95,7 +95,7 @@
 		<url-pattern>*.${controllerSuffix}</url-pattern>
 	</servlet-mapping>
 	</#if>
-	<#if hibernate??>
+	<#if hibernate5??>
 		<!-- 解决Hibernate延迟加载问题过滤器，需放在struts2过滤器之前 -->
 	<filter>
 		<filter-name>openSessionInViewFilter</filter-name>

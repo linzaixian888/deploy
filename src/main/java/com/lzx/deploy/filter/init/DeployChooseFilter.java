@@ -29,7 +29,9 @@ import com.lzx.deploy.filter.springmvc.DeploySpringScan;
 import com.lzx.deploy.filter.struts2.DeployAction;
 import com.lzx.deploy.filter.struts2.DeployStrtus2Interceptor;
 import com.lzx.deploy.filter.struts2.DeployStruts2Xml;
+import com.lzx.deploy.filter.test.DeployControllerJunit;
 import com.lzx.deploy.filter.test.DeployHibernateJunit;
+import com.lzx.deploy.filter.test.DeployJpaJunit;
 import com.lzx.deploy.filter.test.DeployMybatisJunit;
 
 
@@ -46,13 +48,13 @@ public class DeployChooseFilter implements Filter{
 	public void process(FilterChain filterChain) {
 		frameworks=(String[]) filterChain.get("frameworks");
 		type=(String) filterChain.get("type");
-		if(isExist(frameworks, "mybatis")){
+		if(filterChain.get("mybatis")!=null){
 			logger.debug("存在{}框架","mybatis");
 			addMybaitsFilter(filterChain);
-		}else if(isExist(frameworks, "hibernate")){
+		}else if(filterChain.get("hibernate")!=null){
 			logger.debug("存在{}框架","hibernate");
 			addHibernateFilter(filterChain);
-		}else if(isExist(frameworks, "jpa")){
+		}else if(filterChain.get("jpa")!=null){
 			logger.debug("存在{}框架","jpa");
 			addJpaFilter(filterChain);
 		}
@@ -94,6 +96,7 @@ public class DeployChooseFilter implements Filter{
 		chain.addFilter(new DeployJpaDao());
 		chain.addFilter(new DeployJpaService());
 		chain.addFilter(new DeploySpring());
+		chain.addFilter(new DeployJpaJunit());
 		chain.addFilter(new DeployMavenPom());
 	}
 	private void addSpringMVC(FilterChain chain){
@@ -104,6 +107,7 @@ public class DeployChooseFilter implements Filter{
 		chain.addFilter(new DeployWeb());
 		chain.addFilter(new DeployView());
 		chain.addFilter(new DeployController());
+		chain.addFilter(new DeployControllerJunit());
 		chain.addFilter(new DeployJavaScript());
 	}
 	private void addStruts2(FilterChain chain){

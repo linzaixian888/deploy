@@ -35,7 +35,7 @@ public class ${myClass.className} extends BasePojo{
 	@Column(name = "${myClass.idField.columnName}")
 		<#else>
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "${myClass.idField.columnName}")
 		</#if>
 	private ${myClass.idField.type} ${myClass.idField.name};

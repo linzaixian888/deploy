@@ -13,13 +13,18 @@
 		<mybatis.version>3.4.1</mybatis.version>
 		<mybatis-spring.verion>1.3.0</mybatis-spring.verion>
 		<struts.version>2.3.16.3</struts.version>
-		<spring.version>4.2.8.RELEASE</spring.version>
+		<spring.version>4.3.4.RELEASE</spring.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
 		<junit.version>4.12</junit.version>
+		<#if hibernate5?? || jpa??>
 		<hibernate.version>5.2.5.Final</hibernate.version>
+		</#if>
+		<#if hibernate4??>
+		<hibernate.version>4.3.11.Final</hibernate.version>
+		</#if>
 		<freemarker.version>2.3.23</freemarker.version>
-		<druid.version>1.0.20</druid.version>
+		<druid.version>1.0.27</druid.version>
 		<dbcp.version>1.4</dbcp.version>
 		<jackson.version>2.7.4</jackson.version>
 		<h2.version>1.4.192</h2.version>
@@ -30,6 +35,7 @@
 		<slf4j.version>1.7.21</slf4j.version>
 	</properties>
 	<dependencies>
+		<#if hibernate?? || jpa??>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -40,6 +46,7 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${r"${hibernate.version}"}</version>
 		</dependency>
+		</#if>
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
@@ -200,6 +207,24 @@
 			<artifactId>druid</artifactId>
 			<version>${r"${druid.version}"}</version>
 		</dependency>
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		   <groupId>javax.servlet</groupId>
+		   <artifactId>jstl</artifactId>
+		   <version>1.2</version>
+		   <scope>provided</scope>
+		  </dependency>
+	  <dependency>
+		   <groupId>taglibs</groupId>
+		   <artifactId>standard</artifactId>
+		   <version>1.1.2</version>
+		   <scope>provided</scope>
+	  </dependency>
 	</dependencies>
 	<build>
 		<plugins>
