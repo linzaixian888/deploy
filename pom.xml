@@ -5,13 +5,9 @@
 	<artifactId>deploy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<mybatis.version>3.2.3</mybatis.version>
-		<struts.version>2.3.16.3</struts.version>
-		<spring.version>4.2.6.RELEASE</spring.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
 		<junit.version>4.12</junit.version>
-		<hibernate.version>4.3.6.Final</hibernate.version>
 		<freemarker.version>2.3.23</freemarker.version>
 	</properties>
 	<dependencies>
@@ -42,7 +38,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -55,11 +51,6 @@
 			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-json-plugin</artifactId>
-			<version>${struts.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
@@ -68,6 +59,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.192</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 	<build>

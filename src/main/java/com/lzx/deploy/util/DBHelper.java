@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.output.ClosedOutputStream;
-
 import com.lzx.deploy.pojo.ChildTable;
 import com.lzx.deploy.pojo.Column;
 import com.lzx.deploy.pojo.ParentTable;
