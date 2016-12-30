@@ -12,7 +12,7 @@
 	<properties>
 		<mybatis.version>3.4.1</mybatis.version>
 		<mybatis-spring.verion>1.3.0</mybatis-spring.verion>
-		<struts.version>2.3.16.3</struts.version>
+		<struts.version>2.5.5</struts.version>
 		<spring.version>4.3.4.RELEASE</spring.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
